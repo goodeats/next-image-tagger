@@ -9,3 +9,49 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Image {
+  id        String   @id @default(uuid())
+  url       String
+  title     String?
+  alt       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  collection Collection? @relation(fields: [collectionId], references: [id])
+  collectionId String
+  tags      Tag[]
+}
+
+model Collection {
+  id        String   @id @default(uuid())
+  name      String   @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images    Image[]
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images    Image[]
+  category  Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tags      Tag[]
+}
