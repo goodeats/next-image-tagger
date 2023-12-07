@@ -20,7 +20,7 @@ model Image {
   updatedAt DateTime @updatedAt
 
   collection Collection? @relation(fields: [collectionId], references: [id])
-  collectionId String
+  collectionId String?
   tags      Tag[]
 }
 
