@@ -2,24 +2,21 @@
 
 import { CollectionField, ICollection } from '@/app/lib/definitions';
 import Link from 'next/link';
-import {
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
-  UserCircleIcon,
-} from '@heroicons/react/24/outline';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/components/button';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_COLLECTIONS } from '@/app/lib/graphql/queries';
-import { FormEvent, useState } from 'react';
 import { ADD_IMAGE } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
+import { isValidImageUrl } from '@/app/lib/image-utils';
 
 const schema = z.object({
-  url: z.string(),
+  url: z.string().refine(isValidImageUrl, {
+    message: 'Invalid image URL',
+  }),
   title: z.string().optional(),
   alt: z.string().optional(),
   collectionId: z.string().optional(),
@@ -47,6 +44,7 @@ export default function Form() {
 
   const [form, fields] = useForm({
     id: 'create-image-form',
+    shouldValidate: 'onBlur',
     onValidate: ({ formData }) => {
       return parse(formData, { schema });
     },
