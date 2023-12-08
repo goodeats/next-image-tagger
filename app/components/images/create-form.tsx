@@ -12,6 +12,8 @@ import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
 import { isValidImageUrl } from '@/app/lib/image-utils';
+import { useState } from 'react';
+import Image from 'next/image';
 
 const schema = z.object({
   url: z.string().refine(isValidImageUrl, {
@@ -23,6 +25,7 @@ const schema = z.object({
 });
 
 export default function Form() {
+  const [imageUrl, setImageUrl] = useState('');
   const router = useRouter();
 
   const { data, loading, error } = useQuery(GET_COLLECTIONS);
@@ -46,7 +49,12 @@ export default function Form() {
     id: 'create-image-form',
     shouldValidate: 'onBlur',
     onValidate: ({ formData }) => {
-      return parse(formData, { schema });
+      const submission = parse(formData, { schema });
+      if (submission.value && submission.value.url) {
+        const { url } = submission.value;
+        isValidImageUrl(url) && setImageUrl(url);
+      }
+      return submission;
     },
     onSubmit: (event, { formData }) => {
       event.preventDefault();
@@ -76,6 +84,27 @@ export default function Form() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
+  // WARNING: this is dangerous!
+  // Allowing the user to enter any URL could lead to XSS attacks.
+  // This is just a demo, so we're going to allow it.
+  // Leaving more details in the PR for this feature.
+  const customLoader = ({ src }: { src: string }) => {
+    return src;
+  };
+
+  const LoadedImage = () => (
+    <div className="flex items-center justify-center">
+      <Image
+        loader={customLoader}
+        src={imageUrl}
+        width={160}
+        height={160}
+        className="rounded-full"
+        alt="image url preview"
+      />
+    </div>
+  );
+
   return (
     <form {...form.props}>
       {/*
@@ -85,6 +114,17 @@ export default function Form() {
 				*/}
       <button type="submit" className="hidden" />
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
+        {/* Image Preview */}
+        <div className="flex items-center justify-center">
+          <div className="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center">
+            {imageUrl ? (
+              <LoadedImage />
+            ) : (
+              <p className="text-gray-400 text-sm">No image</p>
+            )}
+          </div>
+        </div>
+
         {/* Image Url */}
         <div className="mb-4">
           <label htmlFor="url" className="mb-2 block text-sm font-medium">
