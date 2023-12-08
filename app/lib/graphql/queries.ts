@@ -13,3 +13,12 @@ export const GET_IMAGES = gql`
     }
   }
 `;
+
+export const GET_COLLECTIONS = gql`
+  query Collections {
+    collections {
+      id
+      name
+    }
+  }
+`;

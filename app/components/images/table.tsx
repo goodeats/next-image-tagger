@@ -15,6 +15,17 @@ export default function ImagesTable() {
   const images: IImage[] = data?.images;
   console.log(images);
 
+  const TableImage = ({ image }: { image: IImage }) => (
+    <p>{image.url}</p>
+    // <Image
+    //   src={image.url}
+    //   className="rounded-full"
+    //   width={28}
+    //   height={28}
+    //   alt={image.alt || 'image'}
+    // />
+  );
+
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -28,13 +39,7 @@ export default function ImagesTable() {
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
-                      <Image
-                        src={image.url}
-                        className="mr-2 rounded-full"
-                        width={28}
-                        height={28}
-                        alt={image.alt || 'image'}
-                      />
+                      <TableImage image={image} />
                       <p>{image.title}</p>
                     </div>
                   </div>
@@ -73,14 +78,7 @@ export default function ImagesTable() {
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <Image
-                        src={image.url}
-                        className="rounded-full"
-                        width={28}
-                        height={28}
-                        // comment out alt to raise lint error
-                        alt={image.alt || 'image'}
-                      />
+                      <TableImage image={image} />
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">{image.title}</td>
