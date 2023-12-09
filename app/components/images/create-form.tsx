@@ -172,9 +172,9 @@ export default function Form() {
             inputProps={{
               placeholder:
                 'Enter the information for your image if the user for some reason cannot view it here',
-              ...conform.input(fields.title, { ariaAttributes: true }),
+              ...conform.input(fields.alt, { ariaAttributes: true }),
             }}
-            errors={fields.title.errors}
+            errors={fields.alt.errors}
           />
         </FieldContainer>
 
