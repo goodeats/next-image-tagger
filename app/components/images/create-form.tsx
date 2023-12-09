@@ -14,8 +14,7 @@ import { parse } from '@conform-to/zod';
 import { customLoader, isValidImageUrl } from '@/app/lib/image-utils';
 import { useState } from 'react';
 import Image from 'next/image';
-import { Field } from '../shared';
-import { FieldContainer } from '../shared/field';
+import { Field, FieldContainer } from '../shared';
 
 const schema = z.object({
   url: z.string().refine((url) => isValidImageUrl(url), {
