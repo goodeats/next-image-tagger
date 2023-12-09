@@ -37,5 +37,10 @@ export const typeDefs = `#graphql
   type Query {
     hello: String
     images: [Image]
+    collections: [Collection]
+  }
+
+  type Mutation {
+    addImage(url: String!, title: String, alt: String, collectionId: String): Image
   }
 `;
