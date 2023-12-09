@@ -5,3 +5,13 @@
 export { Button, buttonVariants, type ButtonProps } from './button';
 export { Input, type InputProps } from './input';
 export { Label } from './label';
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from './table';
