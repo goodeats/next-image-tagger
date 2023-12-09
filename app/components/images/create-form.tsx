@@ -16,7 +16,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 const schema = z.object({
-  url: z.string().refine(isValidImageUrl, {
+  url: z.string().refine((url) => isValidImageUrl(url), {
     message: 'Invalid image URL',
   }),
   title: z.string().optional(),
@@ -26,11 +26,11 @@ const schema = z.object({
 
 export default function Form() {
   const [imageUrl, setImageUrl] = useState('');
+  const [imageLoaded, setImageLoaded] = useState(false);
   const router = useRouter();
 
   const { data, loading, error } = useQuery(GET_COLLECTIONS);
   const collections: ICollection[] = data?.collections;
-  console.log(collections);
 
   const [addImage] = useMutation(ADD_IMAGE, {
     variables: {
@@ -49,15 +49,32 @@ export default function Form() {
     id: 'create-image-form',
     shouldValidate: 'onBlur',
     onValidate: ({ formData }) => {
+      // small fix could be to revalidate url only if _it_ was on blur
+      // reset image url and loaded state
+      setImageUrl('');
+
+      // parse the form data
+      // and check if the url is valid
+      // if it is, set the image url to preview it
       const submission = parse(formData, { schema });
       if (submission.value && submission.value.url) {
         const { url } = submission.value;
+        // set image url if it's valid
+        // `return submission` will let the UI know if there are any errors
         isValidImageUrl(url) && setImageUrl(url);
       }
+
       return submission;
     },
     onSubmit: (event, { formData }) => {
       event.preventDefault();
+
+      if (!imageLoaded) {
+        console.warn('image not loaded');
+        alert('image not loaded');
+        return;
+      }
+
       const submission = parse(formData, { schema });
       if (!submission.value) {
         console.warn('no submission', submission);
@@ -101,6 +118,8 @@ export default function Form() {
         height={160}
         className="rounded-full"
         alt="image url preview"
+        onLoad={() => setImageLoaded(true)}
+        onError={() => setImageLoaded(false)}
       />
     </div>
   );
@@ -250,7 +269,9 @@ export default function Form() {
         >
           Cancel
         </Link>
-        <Button type="submit">Create Image</Button>
+        <Button type="submit" disabled={true}>
+          Create Image
+        </Button>
       </div>
     </form>
   );
