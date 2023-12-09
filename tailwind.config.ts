@@ -1,4 +1,6 @@
-import type { Config } from 'tailwindcss'
+import animatePlugin from 'tailwindcss-animate';
+import type { Config } from 'tailwindcss';
+import { extendedTheme } from './app/lib/extended-theme';
 
 const config: Config = {
   content: [
@@ -7,14 +9,17 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+    container: {
+      center: true,
+      padding: '2rem',
+      screens: {
+        '2xl': '1400px',
       },
     },
+    extend: {
+      ...extendedTheme,
+    },
   },
-  plugins: [],
-}
-export default config
+  plugins: [animatePlugin],
+};
+export default config;

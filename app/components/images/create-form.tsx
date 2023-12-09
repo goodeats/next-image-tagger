@@ -3,7 +3,7 @@
 import { CollectionField, ICollection } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
-import { Button } from '@/app/components/button';
+import { Button } from '@/app/components/ui';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_COLLECTIONS } from '@/app/lib/graphql/queries';
 import { ADD_IMAGE } from '@/app/lib/graphql/mutations';
@@ -11,9 +11,10 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
-import { isValidImageUrl } from '@/app/lib/image-utils';
+import { customLoader, isValidImageUrl } from '@/app/lib/image-utils';
 import { useState } from 'react';
 import Image from 'next/image';
+import { Field, FieldContainer } from '../shared';
 
 const schema = z.object({
   url: z.string().refine((url) => isValidImageUrl(url), {
@@ -101,15 +102,6 @@ export default function Form() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  // WARNING: this is dangerous!
-  // Allowing the user to enter any URL could lead to XSS attacks.
-  // This is just a demo, so we're going to allow it.
-  // Leaving more details in the PR for this feature.
-  // https://nextjs.org/docs/app/api-reference/components/image#loader
-  const customLoader = ({ src }: { src: string }) => {
-    return src;
-  };
-
   const LoadedImage = () => (
     <div className="flex items-center justify-center">
       <Image
@@ -125,6 +117,18 @@ export default function Form() {
     </div>
   );
 
+  const ImagePreview = () => (
+    <div className="flex items-center justify-center">
+      <div className="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center">
+        {imageUrl ? (
+          <LoadedImage />
+        ) : (
+          <p className="text-gray-400 text-sm">No image</p>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <form {...form.props}>
       {/*
@@ -134,97 +138,48 @@ export default function Form() {
 				*/}
       <button type="submit" className="hidden" />
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Image Preview */}
-        <div className="flex items-center justify-center">
-          <div className="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center">
-            {imageUrl ? (
-              <LoadedImage />
-            ) : (
-              <p className="text-gray-400 text-sm">No image</p>
-            )}
-          </div>
-        </div>
+        <ImagePreview />
 
         {/* Image Url */}
-        <div className="mb-4">
-          <label htmlFor="url" className="mb-2 block text-sm font-medium">
-            Choose a url
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="url"
-                placeholder="Enter url"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                required
-                {...conform.input(fields.url)}
-              />
-            </div>
-          </div>
-          <div id="url-error" aria-live="polite" aria-atomic="true">
-            {fields.url.errors &&
-              fields.url.errors.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
+        <FieldContainer>
+          <Field
+            labelProps={{ children: 'Image url' }}
+            inputProps={{
+              autoFocus: true,
+              placeholder: 'Enter image url here',
+              ...conform.input(fields.url, { ariaAttributes: true }),
+            }}
+            errors={fields.url.errors}
+          />
+        </FieldContainer>
 
         {/* Image Title */}
-        <div className="mb-4">
-          <label htmlFor="title" className="mb-2 block text-sm font-medium">
-            Choose a title
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="title"
-                placeholder="Enter title"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="title-error"
-                {...conform.input(fields.title)}
-              />
-            </div>
-          </div>
-          <div id="title-error" aria-live="polite" aria-atomic="true">
-            {fields.title.errors &&
-              fields.title.errors.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
+        <FieldContainer>
+          <Field
+            labelProps={{ children: 'Image title' }}
+            inputProps={{
+              placeholder: 'Enter title for your image here',
+              ...conform.input(fields.title, { ariaAttributes: true }),
+            }}
+            errors={fields.title.errors}
+          />
+        </FieldContainer>
 
-        {/* Image Title */}
-        <div className="mb-4">
-          <label htmlFor="alt" className="mb-2 block text-sm font-medium">
-            Choose a alt
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="alt"
-                placeholder="Enter alt"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="alt-error"
-                {...conform.input(fields.alt)}
-              />
-            </div>
-          </div>
-          <div id="alt-error" aria-live="polite" aria-atomic="true">
-            {fields.alt.errors &&
-              fields.alt.errors.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
+        {/* Image Alt */}
+        <FieldContainer>
+          <Field
+            labelProps={{ children: 'Image Alt' }}
+            inputProps={{
+              placeholder:
+                'Enter the information for your image if the user for some reason cannot view it here',
+              ...conform.input(fields.alt, { ariaAttributes: true }),
+            }}
+            errors={fields.alt.errors}
+          />
+        </FieldContainer>
 
         {/* Collection Name */}
-        <div className="mb-4">
+        <FieldContainer>
           <label
             htmlFor="collection"
             className="mb-2 block text-sm font-medium"
@@ -260,17 +215,15 @@ export default function Form() {
                 </p>
               ))}
           </div>
-        </div>
+        </FieldContainer>
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <Link
-          href="/dashboard/images"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-        >
-          Cancel
-        </Link>
-        <Button type="submit" disabled={true}>
+        <Button asChild variant="secondary">
+          <Link href="/dashboard/images">Cancel</Link>
+        </Button>
+
+        <Button type="submit" disabled={!imageLoaded}>
           Create Image
         </Button>
       </div>

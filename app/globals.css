@@ -1,3 +1,136 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --active: 33 100% 50%;
+    --active-foreground: 210 40% 98%;
+
+    --warning: 35.1 89.8% 50.2%;
+    --warning-foreground: 0 0% 100%;
+
+    --info: 207 90.2% 54.1%;
+    --info-foreground: 210 40% 98%;
+
+    --success: 123.4 39.2% 43.9%;
+    --success-foreground: 210 40% 98%;
+
+    --disabled: 0 0% 76.1%;
+    --disabled-foreground: 210 40% 98%;
+
+    --highlight: 55.6 100% 50%;
+    --highlight-foreground: 210 40% 98%;
+
+    --error: 0 100% 50%;
+    --error-foreground: 210 40% 98%;
+
+    --link: 240 100% 50%;
+    --link-foreground: 210 40% 98%;
+
+    --hover: 210 40% 96.1%;
+    --hover-foreground: 222.2 47.4% 11.2%;
+
+    --focus: 202.5 100% 50%;
+    --focus-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --active: 33 100% 30%;
+    --active-foreground: 210 40% 98%;
+
+    --warning: 35.1 89.8% 30.2%;
+    --warning-foreground: 210 40% 98%;
+
+    --info: 207 90.2% 34.1%;
+    --info-foreground: 210 40% 98%;
+
+    --success: 123.4 39.2% 33.9%;
+    --success-foreground: 210 40% 98%;
+
+    --disabled: 0 0% 46.1%;
+    --disabled-foreground: 210 40% 98%;
+
+    --highlight: 55.6 100% 30%;
+    --highlight-foreground: 210 40% 98%;
+
+    --error: 0 100% 30%;
+    --error-foreground: 210 40% 98%;
+
+    --link: 240 100% 30%;
+    --link-foreground: 210 40% 98%;
+
+    --hover: 210 40% 56.1%;
+    --hover-foreground: 222.2 47.4% 11.2%;
+
+    --focus: 202.5 100% 30%;
+    --focus-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
