@@ -36,6 +36,46 @@ export const extendedTheme = {
       DEFAULT: 'hsl(var(--accent))',
       foreground: 'hsl(var(--accent-foreground))',
     },
+    active: {
+      DEFAULT: 'hsl(var(--active))',
+      foreground: 'hsl(var(--active-foreground))',
+    },
+    warning: {
+      DEFAULT: 'hsl(var(--warning))',
+      foreground: 'hsl(var(--warning-foreground))',
+    },
+    info: {
+      DEFAULT: 'hsl(var(--info))',
+      foreground: 'hsl(var(--info-foreground))',
+    },
+    success: {
+      DEFAULT: 'hsl(var(--success))',
+      foreground: 'hsl(var(--success-foreground))',
+    },
+    disabled: {
+      DEFAULT: 'hsl(var(--disabled))',
+      foreground: 'hsl(var(--disabled-foreground))',
+    },
+    highlight: {
+      DEFAULT: 'hsl(var(--highlight))',
+      foreground: 'hsl(var(--highlight-foreground))',
+    },
+    error: {
+      DEFAULT: 'hsl(var(--error))',
+      foreground: 'hsl(var(--error-foreground))',
+    },
+    link: {
+      DEFAULT: 'hsl(var(--link))',
+      foreground: 'hsl(var(--link-foreground))',
+    },
+    hover: {
+      DEFAULT: 'hsl(var(--hover))',
+      foreground: 'hsl(var(--hover-foreground))',
+    },
+    focus: {
+      DEFAULT: 'hsl(var(--focus))',
+      foreground: 'hsl(var(--focus-foreground))',
+    },
     popover: {
       DEFAULT: 'hsl(var(--popover))',
       foreground: 'hsl(var(--popover-foreground))',
