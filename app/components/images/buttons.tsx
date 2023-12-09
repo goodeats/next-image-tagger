@@ -1,26 +1,28 @@
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { Button } from '../ui';
 
 export function CreateImage() {
   return (
-    <Link
-      href="/dashboard/images/new"
-      className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-    >
-      <span className="hidden md:block">Create Image</span>{' '}
-      <PlusIcon className="h-5 md:ml-4" />
-    </Link>
+    <Button asChild>
+      <Link href="/dashboard/images/new">
+        <span className="hidden md:block">Create Image</span>{' '}
+        <PlusIcon className="h-5 md:ml-4" />
+      </Link>
+    </Button>
   );
 }
 
 export function UpdateImage({ id }: { id: string }) {
   return (
-    <Link
-      href={`/dashboard/images/${id}/edit`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <PencilIcon className="w-5" />
-    </Link>
+    <Button asChild variant="secondary">
+      <Link
+        href={`/dashboard/images/${id}/edit`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+        <PencilIcon className="w-5" />
+      </Link>
+    </Button>
   );
 }
 
@@ -30,10 +32,12 @@ export function DeleteImage({ id }: { id: string }) {
   return (
     <form>
       {/* <form action={deleteInvoiceWithId}> */}
-      <button className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5" />
-      </button>
+      <Button asChild variant="secondary">
+        <button className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span>
+          <TrashIcon className="w-5" />
+        </button>
+      </Button>
     </form>
   );
 }

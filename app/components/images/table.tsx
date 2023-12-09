@@ -5,6 +5,7 @@ import { DeleteImage, UpdateImage } from '@/app/components/images/buttons';
 import { useQuery } from '@apollo/client';
 import { GET_IMAGES } from '@/app/lib/graphql/queries';
 import { IImage } from '@/app/lib/definitions';
+import { customLoader } from '@/app/lib/image-utils';
 
 export default function ImagesTable() {
   const { data, loading, error } = useQuery(GET_IMAGES);
@@ -13,17 +14,16 @@ export default function ImagesTable() {
   if (error) return <p>Error :(</p>;
 
   const images: IImage[] = data?.images;
-  console.log(images);
 
   const TableImage = ({ image }: { image: IImage }) => (
-    <p>{image.url}</p>
-    // <Image
-    //   src={image.url}
-    //   className="rounded-full"
-    //   width={28}
-    //   height={28}
-    //   alt={image.alt || 'image'}
-    // />
+    <Image
+      loader={customLoader}
+      src={image.url}
+      className="rounded-full"
+      width={28}
+      height={28}
+      alt={image.alt || 'image'}
+    />
   );
 
   return (

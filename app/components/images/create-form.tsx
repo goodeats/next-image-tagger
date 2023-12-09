@@ -3,7 +3,7 @@
 import { CollectionField, ICollection } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
-import { Button } from '@/app/components/button';
+import { Button } from '@/app/components/ui';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_COLLECTIONS } from '@/app/lib/graphql/queries';
 import { ADD_IMAGE } from '@/app/lib/graphql/mutations';
@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
-import { isValidImageUrl } from '@/app/lib/image-utils';
+import { customLoader, isValidImageUrl } from '@/app/lib/image-utils';
 import { useState } from 'react';
 import Image from 'next/image';
 
@@ -100,15 +100,6 @@ export default function Form() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-
-  // WARNING: this is dangerous!
-  // Allowing the user to enter any URL could lead to XSS attacks.
-  // This is just a demo, so we're going to allow it.
-  // Leaving more details in the PR for this feature.
-  // https://nextjs.org/docs/app/api-reference/components/image#loader
-  const customLoader = ({ src }: { src: string }) => {
-    return src;
-  };
 
   const LoadedImage = () => (
     <div className="flex items-center justify-center">
@@ -264,13 +255,16 @@ export default function Form() {
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <Link
-          href="/dashboard/images"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-        >
-          Cancel
-        </Link>
-        <Button type="submit" disabled={true}>
+        <Button asChild variant="secondary">
+          <Link
+            href="/dashboard/images"
+            className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          >
+            Cancel
+          </Link>
+        </Button>
+
+        <Button type="submit" disabled={!imageLoaded}>
           Create Image
         </Button>
       </div>

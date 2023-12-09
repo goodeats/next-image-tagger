@@ -2,6 +2,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { lusitana } from '@/app/components/fonts';
 import Image from 'next/image';
+import { Button } from './components/ui';
 
 export default function Page() {
   return (
@@ -18,12 +19,11 @@ export default function Page() {
             <strong>Welcome to Next Image Picker.</strong> This is a demo app
             using Next.js, Apollo, GraphQL, Tailwind CSS, and TypeScript.
           </p>
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
-          >
-            <span>Dashboard</span> <ArrowRightIcon className="w-5 md:w-6" />
-          </Link>
+          <Button asChild size="lg">
+            <Link href="/dashboard">
+              <span>Dashboard</span> <ArrowRightIcon className="w-5 md:w-6" />
+            </Link>
+          </Button>
         </div>
       </div>
     </main>
