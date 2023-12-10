@@ -1,6 +1,6 @@
 import { lusitana } from '@/app/components/fonts';
 import { CreateCollection } from '@/app/components/collections/buttons';
-import ImagesTable from '@/app/components/collections/table';
+import Table from '@/app/components/collections/table';
 import Search from '@/app/components/search';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -20,7 +20,7 @@ export default async function Page() {
         <CreateCollection />
       </div>
       <Suspense fallback={<div>Loading...</div>}>
-        <ImagesTable />
+        <Table />
       </Suspense>
     </div>
   );
