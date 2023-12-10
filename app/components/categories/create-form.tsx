@@ -2,14 +2,13 @@
 
 import Link from 'next/link';
 import { Button } from '@/app/components/ui';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { ADD_CATEGORY } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
-import { Field, FieldContainer, SelectField } from '../shared';
-import { ICategory } from '@/app/lib/definitions';
+import { Field, FieldContainer } from '../shared';
 import { GET_CATEGORIES } from '@/app/lib/graphql/queries';
 
 const schema = z.object({

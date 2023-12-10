@@ -1,38 +1,34 @@
 'use client';
 
-import { ICategory, ITag } from '@/app/lib/definitions';
+import { ICategory } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { Button } from '@/app/components/ui';
-import { useMutation, useQuery } from '@apollo/client';
-import { GET_CATEGORIES, GET_TAG } from '@/app/lib/graphql/queries';
-import { UPDATE_TAG } from '@/app/lib/graphql/mutations';
+import { useMutation } from '@apollo/client';
+import { GET_CATEGORY } from '@/app/lib/graphql/queries';
+import { UPDATE_CATEGORY } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
-import { Field, FieldContainer, SelectField } from '../shared';
+import { Field, FieldContainer } from '../shared';
 
 const schema = z.object({
   id: z.string(),
   name: z.string(),
-  categoryId: z.string(),
 });
 
-export default function Form({ tag }: { tag: ITag }) {
+export default function Form({ category }: { category: ICategory }) {
   const router = useRouter();
 
-  const { data, loading, error } = useQuery(GET_CATEGORIES);
-  const categories: ICategory[] = data?.categories;
-
-  const [updateTag] = useMutation(UPDATE_TAG, {
-    refetchQueries: [{ query: GET_TAG, variables: { id: tag.id } }],
+  const [updateCategory] = useMutation(UPDATE_CATEGORY, {
+    refetchQueries: [{ query: GET_CATEGORY, variables: { id: category.id } }],
     onCompleted: (data) => {
-      router.push(`/dashboard/tags/${tag.id}`);
+      router.push(`/dashboard/categories/${category.id}`);
     },
   });
 
   const [form, fields] = useForm({
-    id: 'update-tag-form',
+    id: 'update-category-form',
     shouldValidate: 'onBlur',
     onValidate: ({ formData }) => {
       return parse(formData, { schema });
@@ -45,19 +41,17 @@ export default function Form({ tag }: { tag: ITag }) {
         console.warn('no submission', submission);
         return;
       }
-      const { id, name, categoryId } = submission.value;
-      updateTag({
+      const { id, name } = submission.value;
+      updateCategory({
         variables: {
           id,
           name,
-          categoryId,
         },
       });
     },
     defaultValue: {
-      id: tag.id ?? '',
-      name: tag.name ?? '',
-      categoryId: tag.categoryId ?? '',
+      id: category.id ?? '',
+      name: category.name ?? '',
     },
   });
 
@@ -71,43 +65,25 @@ export default function Form({ tag }: { tag: ITag }) {
       <button type="submit" className="hidden" />
       <input type="hidden" {...conform.input(fields.id)} />
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Tag Name */}
+        {/* Category Name */}
         <FieldContainer>
           <Field
-            labelProps={{ children: 'Tag name' }}
+            labelProps={{ children: 'Category name' }}
             inputProps={{
               autoFocus: true,
-              placeholder: 'Enter tag name here',
+              placeholder: 'Enter category name here',
               ...conform.input(fields.name, { ariaAttributes: true }),
             }}
             errors={fields.name.errors}
           />
         </FieldContainer>
-
-        {/* Tag category */}
-        <FieldContainer>
-          <SelectField
-            labelProps={{ children: 'Tag category' }}
-            selectProps={{
-              placeholder: 'Select tag category here',
-              ...conform.select(fields.categoryId, { ariaAttributes: true }),
-            }}
-            items={
-              categories?.map((category) => ({
-                value: category.id,
-                label: category.name,
-              })) || []
-            }
-            errors={fields.categoryId.errors}
-          />
-        </FieldContainer>
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Button asChild variant="secondary">
-          <Link href={`/dashboard/tags/${tag.id}`}>Cancel</Link>
+          <Link href={`/dashboard/categories/${category.id}`}>Cancel</Link>
         </Button>
 
-        <Button type="submit">Update Tag</Button>
+        <Button type="submit">Update Category</Button>
       </div>
     </form>
   );

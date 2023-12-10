@@ -183,5 +183,15 @@ export const resolvers = {
         },
       });
     },
+    updateCategory: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.category.update({
+        where: {
+          id: args.id,
+        },
+        data: {
+          name: args.name,
+        },
+      });
+    },
   },
 };

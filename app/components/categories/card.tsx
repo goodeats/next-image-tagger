@@ -5,7 +5,7 @@ import { GET_CATEGORY, GET_TAG } from '@/app/lib/graphql/queries';
 import { ICategory, ITag } from '@/app/lib/definitions';
 import { DisplayCard } from '../shared/display-card';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
-import { UpdateTag } from './buttons';
+import { UpdateCategory, UpdateTag } from './buttons';
 import DeleteTagForm from './delete-form';
 
 type CategoryCardProps = {
@@ -39,8 +39,8 @@ export default function CategoryCard({ id }: CategoryCardProps) {
 
   const CardFooter = () => (
     <div className="grid grid-cols-2 gap-6">
-      {/* <UpdateTag id={id} />
-      <DeleteTagForm id={id} /> */}
+      <UpdateCategory id={id} />
+      {/* <DeleteTagForm id={id} /> */}
     </div>
   );
 

@@ -1,14 +1,13 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { GET_CATEGORIES, GET_TAGS } from '@/app/lib/graphql/queries';
-import { ICategory, ITag } from '@/app/lib/definitions';
+import { GET_CATEGORIES } from '@/app/lib/graphql/queries';
+import { ICategory } from '@/app/lib/definitions';
 import { DisplayTable } from '../shared';
 import Link from 'next/link';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { Button } from '../ui';
-import { UpdateTag } from './buttons';
-import DeleteTagForm from './delete-form';
+import { UpdateCategory } from './buttons';
 
 export default function CategoriesTable() {
   const { data, loading, error } = useQuery(GET_CATEGORIES);
@@ -52,8 +51,8 @@ export default function CategoriesTable() {
       {
         children: (
           <div className="flex justify-end gap-3">
-            {/* <UpdateTag id={category.id} />
-            <DeleteTagForm id={category.id} /> */}
+            <UpdateCategory id={category.id} />
+            {/* <DeleteTagForm id={category.id} /> */}
           </div>
         ),
       },

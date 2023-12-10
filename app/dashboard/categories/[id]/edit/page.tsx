@@ -1,9 +1,9 @@
 'use client';
 
-import Form from '@/app/components/tags/update-form';
-import Breadcrumbs from '@/app/components/tags/breadcrumbs';
-import { ICollection, ITag } from '@/app/lib/definitions';
-import { GET_COLLECTION, GET_TAG } from '@/app/lib/graphql/queries';
+import Form from '@/app/components/categories/update-form';
+import Breadcrumbs from '@/app/components/categories/breadcrumbs';
+import { ICategory } from '@/app/lib/definitions';
+import { GET_CATEGORY } from '@/app/lib/graphql/queries';
 import { useQuery } from '@apollo/client';
 import { notFound } from 'next/navigation';
 
@@ -15,31 +15,31 @@ type PageProps = {
 
 export default function Page({ params }: PageProps) {
   const id = params.id;
-  const { loading, error, data } = useQuery(GET_TAG, {
+  const { loading, error, data } = useQuery(GET_CATEGORY, {
     variables: { id },
   });
 
-  const tag: ITag = data?.tag;
+  const category: ICategory = data?.category;
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  if (!tag) notFound();
+  if (!category) notFound();
 
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Tags', href: '/dashboard/tags' },
-          { label: tag.name, href: `/dashboard/tags/${id}` },
+          { label: 'Categories', href: '/dashboard/categories' },
+          { label: category.name, href: `/dashboard/categories/${id}` },
           {
             label: 'Edit',
-            href: `/dashboard/tags/${id}/edit`,
+            href: `/dashboard/categories/${id}/edit`,
             active: true,
           },
         ]}
       />
-      <Form tag={tag} />
+      <Form category={category} />
     </main>
   );
 }

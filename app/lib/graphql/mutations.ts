@@ -138,3 +138,14 @@ export const ADD_CATEGORY = gql`
     }
   }
 `;
+
+export const UPDATE_CATEGORY = gql`
+  mutation UpdateCategory($id: ID!, $name: String!) {
+    updateCategory(id: $id, name: $name) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
