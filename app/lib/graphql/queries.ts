@@ -128,3 +128,18 @@ export const GET_CATEGORIES = gql`
     }
   }
 `;
+
+export const GET_CATEGORY = gql`
+  query Category($id: ID!) {
+    category(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+      tags {
+        id
+        name
+      }
+    }
+  }
+`;

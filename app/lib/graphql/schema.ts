@@ -48,6 +48,7 @@ export const typeDefs = `#graphql
     tags: [Tag]
     tag(id: ID!): Tag
     categories: [Category]
+    category(id: ID!): Category
   }
 
   type Mutation {
