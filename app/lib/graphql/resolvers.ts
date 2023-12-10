@@ -41,5 +41,12 @@ export const resolvers = {
         },
       });
     },
+    deleteImage: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.image.delete({
+        where: {
+          id: args.id,
+        },
+      });
+    },
   },
 };

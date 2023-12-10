@@ -46,5 +46,6 @@ export const typeDefs = `#graphql
   type Mutation {
     addImage(url: String!, title: String, alt: String, collectionId: String): Image
     updateImage(id: ID!, url: String!, title: String, alt: String, collectionId: String): Image
+    deleteImage(id: ID!): Image
   }
 `;

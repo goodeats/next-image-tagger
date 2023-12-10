@@ -1,13 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { DeleteImage, UpdateImage } from '@/app/components/images/buttons';
+import { UpdateImage } from '@/app/components/images/buttons';
 import { useQuery } from '@apollo/client';
 import { GET_IMAGES } from '@/app/lib/graphql/queries';
 import { IImage } from '@/app/lib/definitions';
 import { customLoader } from '@/app/lib/image-utils';
 import { DisplayTable } from '../shared';
 import Link from 'next/link';
+import DeleteImageForm from './delete-form';
 
 export default function ImagesTable() {
   const { data, loading, error } = useQuery(GET_IMAGES);
@@ -64,7 +65,7 @@ export default function ImagesTable() {
         children: (
           <div className="flex justify-end gap-3">
             <UpdateImage id={image.id} />
-            <DeleteImage id={image.id} />
+            <DeleteImageForm id={image.id} />
           </div>
         ),
       },

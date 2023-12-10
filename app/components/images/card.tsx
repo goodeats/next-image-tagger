@@ -6,8 +6,9 @@ import { GET_IMAGE } from '@/app/lib/graphql/queries';
 import { IImage } from '@/app/lib/definitions';
 import { customLoader } from '@/app/lib/image-utils';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
-import { DeleteImage, UpdateImage } from './buttons';
+import { UpdateImage } from './buttons';
 import { DisplayCard } from '../shared';
+import DeleteImageForm from './delete-form';
 
 type ImageCardProps = {
   id: string;
@@ -50,7 +51,7 @@ export default function ImageCard({ id }: ImageCardProps) {
   const CardFooter = () => (
     <div className="grid grid-cols-2 gap-6">
       <UpdateImage id={id} />
-      <DeleteImage id={id} />
+      <DeleteImageForm id={id} />
     </div>
   );
 

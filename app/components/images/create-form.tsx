@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/components/ui';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_COLLECTIONS } from '@/app/lib/graphql/queries';
+import { GET_COLLECTIONS, GET_IMAGES } from '@/app/lib/graphql/queries';
 import { ADD_IMAGE } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
@@ -34,6 +34,7 @@ export default function Form() {
   const collections: ICollection[] = data?.collections;
 
   const [addImage] = useMutation(ADD_IMAGE, {
+    refetchQueries: [{ query: GET_IMAGES }],
     onCompleted: (data) => {
       console.log('image added');
       router.push('/dashboard/images');
