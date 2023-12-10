@@ -27,7 +27,7 @@ export const typeDefs = `#graphql
     createdAt: DateTime
     updatedAt: DateTime
     images: [Image]
-    categoryId: String
+    categoryId: String!
     category: Category
   }
 
@@ -58,5 +58,6 @@ export const typeDefs = `#graphql
     updateCollection(id: ID!, name: String!): Collection
     deleteCollection(id: ID!): Collection
     addTag(name: String!, categoryId: String): Tag
+    updateTag(id: ID!, name: String!, categoryId: String): Tag
   }
 `;

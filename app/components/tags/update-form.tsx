@@ -1,34 +1,38 @@
 'use client';
 
-import { ICollection } from '@/app/lib/definitions';
+import { ICategory, ITag } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { Button } from '@/app/components/ui';
-import { useMutation } from '@apollo/client';
-import { GET_COLLECTION } from '@/app/lib/graphql/queries';
-import { UPDATE_COLLECTION } from '@/app/lib/graphql/mutations';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_CATEGORIES, GET_TAG } from '@/app/lib/graphql/queries';
+import { UPDATE_TAG } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
-import { Field, FieldContainer } from '../shared';
+import { Field, FieldContainer, SelectField } from '../shared';
 
 const schema = z.object({
   id: z.string(),
   name: z.string(),
+  categoryId: z.string(),
 });
 
-export default function Form({ collection }: { collection: ICollection }) {
+export default function Form({ tag }: { tag: ITag }) {
   const router = useRouter();
 
-  const [updateCollection] = useMutation(UPDATE_COLLECTION, {
-    refetchQueries: [{ query: GET_COLLECTION }],
+  const { data, loading, error } = useQuery(GET_CATEGORIES);
+  const categories: ICategory[] = data?.categories;
+
+  const [updateTag] = useMutation(UPDATE_TAG, {
+    refetchQueries: [{ query: GET_TAG, variables: { id: tag.id } }],
     onCompleted: (data) => {
-      router.push(`/dashboard/collections/${collection.id}`);
+      router.push(`/dashboard/tags/${tag.id}`);
     },
   });
 
   const [form, fields] = useForm({
-    id: 'update-collection-form',
+    id: 'update-tag-form',
     shouldValidate: 'onBlur',
     onValidate: ({ formData }) => {
       return parse(formData, { schema });
@@ -41,17 +45,19 @@ export default function Form({ collection }: { collection: ICollection }) {
         console.warn('no submission', submission);
         return;
       }
-      const { id, name } = submission.value;
-      updateCollection({
+      const { id, name, categoryId } = submission.value;
+      updateTag({
         variables: {
           id,
           name,
+          categoryId,
         },
       });
     },
     defaultValue: {
-      id: collection.id ?? '',
-      name: collection.name ?? '',
+      id: tag.id ?? '',
+      name: tag.name ?? '',
+      categoryId: tag.categoryId ?? '',
     },
   });
 
@@ -65,26 +71,43 @@ export default function Form({ collection }: { collection: ICollection }) {
       <button type="submit" className="hidden" />
       <input type="hidden" {...conform.input(fields.id)} />
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Collection Name */}
+        {/* Tag Name */}
         <FieldContainer>
           <Field
-            labelProps={{ children: 'Collection name' }}
+            labelProps={{ children: 'Tag name' }}
             inputProps={{
               autoFocus: true,
-              placeholder: 'Enter collection name here',
+              placeholder: 'Enter tag name here',
               ...conform.input(fields.name, { ariaAttributes: true }),
             }}
             errors={fields.name.errors}
           />
         </FieldContainer>
-      </div>
 
+        {/* Tag category */}
+        <FieldContainer>
+          <SelectField
+            labelProps={{ children: 'Tag category' }}
+            selectProps={{
+              placeholder: 'Select tag category here',
+              ...conform.select(fields.categoryId, { ariaAttributes: true }),
+            }}
+            items={
+              categories?.map((category) => ({
+                value: category.id,
+                label: category.name,
+              })) || []
+            }
+            errors={fields.categoryId.errors}
+          />
+        </FieldContainer>
+      </div>
       <div className="mt-6 flex justify-end gap-4">
         <Button asChild variant="secondary">
-          <Link href={`/dashboard/collections/${collection.id}`}>Cancel</Link>
+          <Link href={`/dashboard/tags/${tag.id}`}>Cancel</Link>
         </Button>
 
-        <Button type="submit">Update Collection</Button>
+        <Button type="submit">Update Tag</Button>
       </div>
     </form>
   );

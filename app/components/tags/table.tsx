@@ -16,7 +16,6 @@ export default function TagsTable() {
   if (error) return <p>Error :(</p>;
 
   const tags: ITag[] = data?.tags;
-  console.log(tags);
 
   const SmallTable = () => (
     <div className="md:hidden">

@@ -151,5 +151,16 @@ export const resolvers = {
         },
       });
     },
+    updateTag: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.tag.update({
+        where: {
+          id: args.id,
+        },
+        data: {
+          name: args.name,
+          categoryId: args.categoryId,
+        },
+      });
+    },
   },
 };

@@ -5,6 +5,7 @@ import { GET_TAG } from '@/app/lib/graphql/queries';
 import { ITag } from '@/app/lib/definitions';
 import { DisplayCard } from '../shared/display-card';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
+import { UpdateTag } from './buttons';
 // import { UpdateCollection } from './buttons';
 // import DeleteCollectionForm from './delete-form';
 
@@ -40,8 +41,8 @@ export default function TagCard({ id }: TagCardProps) {
 
   const CardFooter = () => (
     <div className="grid grid-cols-2 gap-6">
-      {/* <UpdateCollection id={id} />
-      <DeleteCollectionForm id={id} /> */}
+      <UpdateTag id={id} />
+      {/* <DeleteCollectionForm id={id} /> */}
     </div>
   );
 

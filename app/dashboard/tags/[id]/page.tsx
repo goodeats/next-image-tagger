@@ -30,7 +30,7 @@ export default function Page({ params }: PageProps) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Collections', href: '/dashboard/tags' },
+          { label: 'Tags', href: '/dashboard/tags' },
           {
             label: tag.name,
             href: `/dashboard/tags/${id}`,
