@@ -14,6 +14,10 @@ export const GET_IMAGES = gql`
         id
         name
       }
+      tags {
+        id
+        name
+      }
     }
   }
 `;
@@ -61,6 +65,43 @@ export const GET_COLLECTION = gql`
         url
         title
         alt
+      }
+    }
+  }
+`;
+
+export const GET_TAGS = gql`
+  query Tags {
+    tags {
+      id
+      name
+      createdAt
+      updatedAt
+      categoryId
+      category {
+        id
+        name
+      }
+      images {
+        id
+        url
+        title
+        alt
+      }
+    }
+  }
+`;
+
+export const GET_CATEGORIES = gql`
+  query Categories {
+    categories {
+      id
+      name
+      createdAt
+      updatedAt
+      tags {
+        id
+        name
       }
     }
   }

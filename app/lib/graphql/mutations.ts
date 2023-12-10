@@ -91,3 +91,15 @@ export const DELETE_COLLECTION = gql`
     }
   }
 `;
+
+export const ADD_TAG = gql`
+  mutation AddTag($name: String!, $categoryId: String) {
+    addTag(name: $name, categoryId: $categoryId) {
+      id
+      name
+      createdAt
+      updatedAt
+      categoryId
+    }
+  }
+`;

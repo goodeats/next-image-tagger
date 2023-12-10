@@ -61,7 +61,7 @@ export default function ImagesTable() {
       { children: image.title },
       { children: image.collection?.name || image.collectionId || 'n/a' },
       { children: formatTimeStampsReadable(image.createdAt) },
-      { children: 'tags' },
+      { children: image.tags?.length || 0 },
       {
         children: (
           <div className="flex justify-end gap-3">

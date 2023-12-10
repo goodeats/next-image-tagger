@@ -3,7 +3,8 @@
 import {
   PhotoIcon,
   HomeIcon,
-  DocumentDuplicateIcon,
+  RectangleGroupIcon,
+  TagIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -22,7 +23,12 @@ const links = [
   {
     name: 'Collections',
     href: '/dashboard/collections',
-    icon: DocumentDuplicateIcon,
+    icon: RectangleGroupIcon,
+  },
+  {
+    name: 'Tags',
+    href: '/dashboard/tags',
+    icon: TagIcon,
   },
 ];
 

@@ -10,6 +10,7 @@ export const typeDefs = `#graphql
     updatedAt: DateTime
     collectionId: String
     collection: Collection
+    tags: [Tag]
   }
 
   type Collection {
@@ -27,6 +28,7 @@ export const typeDefs = `#graphql
     updatedAt: DateTime
     images: [Image]
     categoryId: String
+    category: Category
   }
 
   type Category {
@@ -43,6 +45,8 @@ export const typeDefs = `#graphql
     image(id: ID!): Image
     collections: [Collection]
     collection(id: ID!): Collection
+    tags: [Tag]
+    categories: [Category]
   }
 
   type Mutation {
@@ -52,5 +56,6 @@ export const typeDefs = `#graphql
     addCollection(name: String!): Collection
     updateCollection(id: ID!, name: String!): Collection
     deleteCollection(id: ID!): Collection
+    addTag(name: String!, categoryId: String): Tag
   }
 `;

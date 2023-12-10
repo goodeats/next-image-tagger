@@ -23,12 +23,60 @@ export const resolvers = {
         },
       });
     },
+    tags: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.tag.findMany();
+    },
+    categories: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.category.findMany();
+    },
+  },
+  Image: {
+    tags: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.tag.findMany({
+        where: {
+          images: {
+            some: {
+              id: parent.id,
+            },
+          },
+        },
+      });
+    },
   },
   Collection: {
     images: async (parent: any, args: any, context: Context) => {
       return await context.prisma.image.findMany({
         where: {
           collectionId: parent.id,
+        },
+      });
+    },
+  },
+  Tag: {
+    images: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.image.findMany({
+        where: {
+          tags: {
+            some: {
+              id: parent.id,
+            },
+          },
+        },
+      });
+    },
+    category: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.category.findUnique({
+        where: {
+          id: parent.categoryId,
+        },
+      });
+    },
+  },
+  Category: {
+    tags: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.tag.findMany({
+        where: {
+          categoryId: parent.id,
         },
       });
     },
@@ -85,6 +133,14 @@ export const resolvers = {
       return await context.prisma.collection.delete({
         where: {
           id: args.id,
+        },
+      });
+    },
+    addTag: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.tag.create({
+        data: {
+          name: args.name,
+          categoryId: args.categoryId,
         },
       });
     },
