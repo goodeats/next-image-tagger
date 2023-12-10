@@ -3,29 +3,29 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/components/ui';
 import { useMutation } from '@apollo/client';
-import { DELETE_TAG } from '@/app/lib/graphql/mutations';
+import { DELETE_CATEGORY } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
-import { GET_TAGS } from '@/app/lib/graphql/queries';
+import { GET_CATEGORIES } from '@/app/lib/graphql/queries';
 
 const schema = z.object({
-  tagId: z.string(),
+  categoryId: z.string(),
 });
 
-export default function DeleteTagForm({ id }: { id: string }) {
+export default function DeleteCategoryForm({ id }: { id: string }) {
   const router = useRouter();
 
-  const [deleteTag] = useMutation(DELETE_TAG, {
-    refetchQueries: [{ query: GET_TAGS }],
+  const [deleteCategory] = useMutation(DELETE_CATEGORY, {
+    refetchQueries: [{ query: GET_CATEGORIES }],
     onCompleted: (data) => {
-      router.push('/dashboard/tags');
+      router.push('/dashboard/categories');
     },
   });
 
   const [form] = useForm({
-    id: 'delete-tag-form',
+    id: 'delete-category-form',
     onSubmit: (event, { formData }) => {
       event.preventDefault();
 
@@ -34,10 +34,10 @@ export default function DeleteTagForm({ id }: { id: string }) {
         console.warn('no submission', submission);
         return;
       }
-      const { tagId } = submission.value;
-      deleteTag({
+      const { categoryId } = submission.value;
+      deleteCategory({
         variables: {
-          id: tagId,
+          id: categoryId,
         },
       });
     },
@@ -45,7 +45,7 @@ export default function DeleteTagForm({ id }: { id: string }) {
 
   return (
     <form method="post" {...form.props}>
-      <input type="hidden" name="tagId" value={id} />
+      <input type="hidden" name="categoryId" value={id} />
       <Button
         variant="secondary"
         type="submit"

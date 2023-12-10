@@ -193,5 +193,12 @@ export const resolvers = {
         },
       });
     },
+    deleteCategory: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.category.delete({
+        where: {
+          id: args.id,
+        },
+      });
+    },
   },
 };

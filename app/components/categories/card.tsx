@@ -1,12 +1,12 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { GET_CATEGORY, GET_TAG } from '@/app/lib/graphql/queries';
-import { ICategory, ITag } from '@/app/lib/definitions';
+import { GET_CATEGORY } from '@/app/lib/graphql/queries';
+import { ICategory } from '@/app/lib/definitions';
 import { DisplayCard } from '../shared/display-card';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
-import { UpdateCategory, UpdateTag } from './buttons';
-import DeleteTagForm from './delete-form';
+import { UpdateCategory } from './buttons';
+import DeleteCategoryForm from './delete-form';
 
 type CategoryCardProps = {
   id: string;
@@ -40,7 +40,7 @@ export default function CategoryCard({ id }: CategoryCardProps) {
   const CardFooter = () => (
     <div className="grid grid-cols-2 gap-6">
       <UpdateCategory id={id} />
-      {/* <DeleteTagForm id={id} /> */}
+      <DeleteCategoryForm id={id} />
     </div>
   );
 

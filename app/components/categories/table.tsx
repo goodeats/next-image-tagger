@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { Button } from '../ui';
 import { UpdateCategory } from './buttons';
+import DeleteCategoryForm from './delete-form';
 
 export default function CategoriesTable() {
   const { data, loading, error } = useQuery(GET_CATEGORIES);
@@ -52,7 +53,7 @@ export default function CategoriesTable() {
         children: (
           <div className="flex justify-end gap-3">
             <UpdateCategory id={category.id} />
-            {/* <DeleteTagForm id={category.id} /> */}
+            <DeleteCategoryForm id={category.id} />
           </div>
         ),
       },
