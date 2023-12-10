@@ -28,5 +28,18 @@ export const resolvers = {
         },
       });
     },
+    updateImage: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.image.update({
+        where: {
+          id: args.id,
+        },
+        data: {
+          url: args.url,
+          title: args.title,
+          alt: args.alt,
+          collectionId: args.collectionId,
+        },
+      });
+    },
   },
 };

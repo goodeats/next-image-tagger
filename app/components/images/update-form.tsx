@@ -1,12 +1,12 @@
 'use client';
 
-import { CollectionField, ICollection } from '@/app/lib/definitions';
+import { CollectionField, ICollection, IImage } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/components/ui';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_COLLECTIONS } from '@/app/lib/graphql/queries';
-import { ADD_IMAGE } from '@/app/lib/graphql/mutations';
+import { UPDATE_IMAGE } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
@@ -17,6 +17,7 @@ import Image from 'next/image';
 import { Field, FieldContainer } from '../shared';
 
 const schema = z.object({
+  id: z.string(),
   url: z.string().refine((url) => isValidImageUrl(url), {
     message: 'Invalid image URL',
   }),
@@ -25,18 +26,18 @@ const schema = z.object({
   collectionId: z.string().optional(),
 });
 
-export default function Form() {
-  const [imageUrl, setImageUrl] = useState('');
+export default function Form({ image }: { image: IImage }) {
+  const [imageUrl, setImageUrl] = useState(image.url ?? '');
   const [imageLoaded, setImageLoaded] = useState(false);
   const router = useRouter();
 
   const { data, loading, error } = useQuery(GET_COLLECTIONS);
   const collections: ICollection[] = data?.collections;
 
-  const [addImage] = useMutation(ADD_IMAGE, {
+  const [updateImage] = useMutation(UPDATE_IMAGE, {
     onCompleted: (data) => {
-      console.log('image added');
-      router.push('/dashboard/images');
+      console.log('image updated');
+      router.push(`/dashboard/images/${image.id}`);
     },
   });
 
@@ -75,9 +76,10 @@ export default function Form() {
         console.warn('no submission', submission);
         return;
       }
-      const { url, title, alt, collectionId } = submission.value;
-      addImage({
+      const { id, url, title, alt, collectionId } = submission.value;
+      updateImage({
         variables: {
+          id,
           url,
           title,
           alt,
@@ -86,10 +88,11 @@ export default function Form() {
       });
     },
     defaultValue: {
-      url: '',
-      title: '',
-      alt: '',
-      collectionId: '',
+      id: image.id ?? '',
+      url: image.url ?? '',
+      title: image.title ?? '',
+      alt: image.alt ?? '',
+      collectionId: image.collectionId ?? '',
     },
   });
 
@@ -131,6 +134,7 @@ export default function Form() {
 					rather than the first button in the form (which is delete/add image).
 				*/}
       <button type="submit" className="hidden" />
+      <input type="hidden" {...conform.input(fields.id)} />
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <ImagePreview />
 
@@ -214,11 +218,11 @@ export default function Form() {
 
       <div className="mt-6 flex justify-end gap-4">
         <Button asChild variant="secondary">
-          <Link href="/dashboard/images">Cancel</Link>
+          <Link href={`/dashboard/images/${image.id}`}>Cancel</Link>
         </Button>
 
         <Button type="submit" disabled={!imageLoaded}>
-          Create Image
+          Update Image
         </Button>
       </div>
     </form>

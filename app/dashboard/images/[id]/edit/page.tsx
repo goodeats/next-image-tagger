@@ -1,7 +1,7 @@
 'use client';
 
+import Form from '@/app/components/images/update-form';
 import Breadcrumbs from '@/app/components/images/breadcrumbs';
-import ImageCard from '@/app/components/images/card';
 import { IImage } from '@/app/lib/definitions';
 import { GET_IMAGE } from '@/app/lib/graphql/queries';
 import { useQuery } from '@apollo/client';
@@ -33,14 +33,15 @@ export default function Page({ params }: PageProps) {
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Images', href: '/dashboard/images' },
+          { label: imageTitle, href: `/dashboard/images/${id}` },
           {
-            label: imageTitle,
-            href: `/dashboard/images/${id}`,
+            label: 'Edit',
+            href: `/dashboard/images/${id}/edit`,
             active: true,
           },
         ]}
       />
-      <ImageCard id={id} />
+      <Form image={image} />
     </main>
   );
 }

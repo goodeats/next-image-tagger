@@ -4,19 +4,10 @@ import Image from 'next/image';
 import { useQuery } from '@apollo/client';
 import { GET_IMAGE } from '@/app/lib/graphql/queries';
 import { IImage } from '@/app/lib/definitions';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '../ui';
-import { DisplayCard } from '../shared/display-card';
 import { customLoader } from '@/app/lib/image-utils';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { DeleteImage, UpdateImage } from './buttons';
+import { DisplayCard } from '../shared';
 
 type ImageCardProps = {
   id: string;
@@ -52,7 +43,7 @@ export default function ImageCard({ id }: ImageCardProps) {
         objectFit="contain"
         className="rounded-md mb-4"
       />
-      <div>Tags:</div>
+      <div>Tags: none</div>
     </>
   );
 
