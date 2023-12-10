@@ -14,7 +14,7 @@ import { parse } from '@conform-to/zod';
 import { customLoader, isValidImageUrl } from '@/app/lib/image-utils';
 import { useState } from 'react';
 import Image from 'next/image';
-import { Field, FieldContainer } from '../shared';
+import { Field, FieldContainer, SelectField } from '../shared';
 
 const schema = z.object({
   url: z.string().refine((url) => isValidImageUrl(url), {
@@ -173,43 +173,22 @@ export default function Form() {
           />
         </FieldContainer>
 
-        {/* Collection Name */}
+        {/* Image collection */}
         <FieldContainer>
-          <label
-            htmlFor="collection"
-            className="mb-2 block text-sm font-medium"
-          >
-            Choose collection
-          </label>
-          <div className="relative">
-            <select
-              id="collection"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              aria-describedby="collection-error"
-              disabled={collections?.length === 0}
-              {...conform.input(fields.collectionId)}
-            >
-              <option value="" disabled>
-                {collections?.length
-                  ? 'Select a collection'
-                  : 'There are no collections'}
-              </option>
-              {collections?.map((collection) => (
-                <option key={collection.id} value={collection.id}>
-                  {collection.name}
-                </option>
-              ))}
-            </select>
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-          <div id="collectionId-error" aria-live="polite" aria-atomic="true">
-            {fields.collectionId.errors &&
-              fields.collectionId.errors.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
+          <SelectField
+            labelProps={{ children: 'Image collection' }}
+            selectProps={{
+              placeholder: 'Select tag collection here',
+              ...conform.select(fields.collectionId, { ariaAttributes: true }),
+            }}
+            items={
+              collections?.map((collection) => ({
+                value: collection.id,
+                label: collection.name,
+              })) || []
+            }
+            errors={fields.collectionId.errors}
+          />
         </FieldContainer>
       </div>
 
