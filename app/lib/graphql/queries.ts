@@ -22,6 +22,28 @@ export const GET_IMAGES = gql`
   }
 `;
 
+export const GET_IMAGE = gql`
+  query Image($id: ID!) {
+    image(id: $id) {
+      id
+      url
+      title
+      alt
+      createdAt
+      updatedAt
+      collectionId
+      collection {
+        id
+        name
+      }
+      tags {
+        id
+        name
+      }
+    }
+  }
+`;
+
 export const GET_COLLECTIONS = gql`
   query Collections {
     collections {
@@ -35,20 +57,6 @@ export const GET_COLLECTIONS = gql`
         title
         alt
       }
-    }
-  }
-`;
-
-export const GET_IMAGE = gql`
-  query Image($id: ID!) {
-    image(id: $id) {
-      id
-      url
-      title
-      alt
-      createdAt
-      updatedAt
-      collectionId
     }
   }
 `;

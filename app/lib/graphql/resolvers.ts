@@ -56,6 +56,13 @@ export const resolvers = {
         },
       });
     },
+    collection: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.collection.findUnique({
+        where: {
+          id: parent.collectionId,
+        },
+      });
+    },
   },
   Collection: {
     images: async (parent: any, args: any, context: Context) => {
