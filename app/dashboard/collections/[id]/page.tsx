@@ -1,9 +1,9 @@
 'use client';
 
-import Breadcrumbs from '@/app/components/images/breadcrumbs';
-import ImageCard from '@/app/components/images/card';
-import { IImage } from '@/app/lib/definitions';
-import { GET_IMAGE } from '@/app/lib/graphql/queries';
+import Breadcrumbs from '@/app/components/collections/breadcrumbs';
+import CollectionCard from '@/app/components/collections/card';
+import { ICollection } from '@/app/lib/definitions';
+import { GET_COLLECTION } from '@/app/lib/graphql/queries';
 import { useQuery } from '@apollo/client';
 import { notFound } from 'next/navigation';
 
@@ -15,32 +15,30 @@ type PageProps = {
 
 export default function Page({ params }: PageProps) {
   const id = params.id;
-  const { loading, error, data } = useQuery(GET_IMAGE, {
+  const { loading, error, data } = useQuery(GET_COLLECTION, {
     variables: { id },
   });
 
-  const image: IImage = data?.image;
+  const collection: ICollection = data?.collection;
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  if (!image) notFound();
-
-  const imageTitle = image?.title || '(No Title)';
+  if (!collection) notFound();
 
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Images', href: '/dashboard/images' },
+          { label: 'Collections', href: '/dashboard/collections' },
           {
-            label: imageTitle,
-            href: `/dashboard/images/${id}`,
+            label: collection.name,
+            href: `/dashboard/collections/${id}`,
             active: true,
           },
         ]}
       />
-      <ImageCard id={id} />
+      <CollectionCard id={id} />
     </main>
   );
 }

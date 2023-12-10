@@ -8,6 +8,7 @@ import { DisplayTable } from '../shared';
 import Link from 'next/link';
 import DeleteImageForm from './delete-form';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
+import { Button } from '../ui';
 
 export default function CollectionsTable() {
   const { data, loading, error } = useQuery(GET_COLLECTIONS);
@@ -41,11 +42,11 @@ export default function CollectionsTable() {
     cells: [
       {
         children: (
-          <div className="flex items-center gap-3">
+          <Button asChild variant="link">
             <Link href={`/dashboard/collections/${collection.id}`}>
               <p>{collection.name}</p>
             </Link>
-          </div>
+          </Button>
         ),
       },
       { children: collection.images?.length },

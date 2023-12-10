@@ -42,6 +42,7 @@ export const typeDefs = `#graphql
     images: [Image]
     image(id: ID!): Image
     collections: [Collection]
+    collection(id: ID!): Collection
   }
 
   type Mutation {

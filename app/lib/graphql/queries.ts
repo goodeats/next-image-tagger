@@ -48,3 +48,20 @@ export const GET_IMAGE = gql`
     }
   }
 `;
+
+export const GET_COLLECTION = gql`
+  query Collection($id: ID!) {
+    collection(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+      images {
+        id
+        url
+        title
+        alt
+      }
+    }
+  }
+`;

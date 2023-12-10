@@ -1,32 +1,30 @@
 'use client';
 
-import Image from 'next/image';
 import { useQuery } from '@apollo/client';
-import { GET_IMAGE } from '@/app/lib/graphql/queries';
-import { IImage } from '@/app/lib/definitions';
+import { GET_COLLECTION } from '@/app/lib/graphql/queries';
+import { ICollection } from '@/app/lib/definitions';
 import { DisplayCard } from '../shared/display-card';
-import { customLoader } from '@/app/lib/image-utils';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
-import { DeleteImage, UpdateImage } from './buttons';
+import { UpdateCollection } from './buttons';
 import DeleteImageForm from './delete-form';
 
-type ImageCardProps = {
+type CollectionCardProps = {
   id: string;
 };
 
-export default function ImageCard({ id }: ImageCardProps) {
-  const { data, loading, error } = useQuery(GET_IMAGE, {
+export default function CollectionCard({ id }: CollectionCardProps) {
+  const { data, loading, error } = useQuery(GET_COLLECTION, {
     variables: { id },
   });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  const image: IImage = data?.image;
-  if (!image) return <p>Image not found</p>;
-  const { title, url, alt, createdAt, updatedAt } = image;
+  const collection: ICollection = data?.collection;
+  if (!collection) return <p>Collection not found</p>;
+  const { name, createdAt, updatedAt, images } = collection;
 
-  const ImageTimestamps = () => (
+  const Timestamps = () => (
     <div>
       <p>Created: {formatTimeStampsReadable(createdAt)}</p>
       <p>Updated: {formatTimeStampsReadable(updatedAt)}</p>
@@ -35,31 +33,22 @@ export default function ImageCard({ id }: ImageCardProps) {
 
   const CardContent = () => (
     <>
-      <Image
-        loader={customLoader}
-        src={url}
-        alt={alt || 'no alt'}
-        width={500}
-        height={500}
-        objectFit="contain"
-        className="rounded-md mb-4"
-      />
-      <div>Tags: none</div>
+      <div>Images: {images.length}</div>
     </>
   );
 
   const CardFooter = () => (
     <div className="grid grid-cols-2 gap-6">
-      <UpdateImage id={id} />
-      <DeleteImageForm id={id} />
+      <UpdateCollection id={id} />
+      {/* <DeleteImageForm id={id} /> */}
     </div>
   );
 
   return (
     <DisplayCard
       cardHeaderProps={{
-        title: title || '(no title)',
-        description: <ImageTimestamps />,
+        title: name || '(no name)',
+        description: <Timestamps />,
       }}
       cardContentProps={{
         children: <CardContent />,
