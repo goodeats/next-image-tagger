@@ -60,5 +60,6 @@ export const typeDefs = `#graphql
     addTag(name: String!, categoryId: String): Tag
     updateTag(id: ID!, name: String!, categoryId: String): Tag
     deleteTag(id: ID!): Tag
+    addCategory(name: String!): Category
   }
 `;

@@ -127,3 +127,14 @@ export const DELETE_TAG = gql`
     }
   }
 `;
+
+export const ADD_CATEGORY = gql`
+  mutation AddCategory($name: String!) {
+    addCategory(name: $name) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;

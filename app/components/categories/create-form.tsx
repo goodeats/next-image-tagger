@@ -3,35 +3,31 @@
 import Link from 'next/link';
 import { Button } from '@/app/components/ui';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_CATEGORIES, GET_TAGS } from '@/app/lib/graphql/queries';
-import { ADD_TAG } from '@/app/lib/graphql/mutations';
+import { ADD_CATEGORY } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
 import { Field, FieldContainer, SelectField } from '../shared';
 import { ICategory } from '@/app/lib/definitions';
+import { GET_CATEGORIES } from '@/app/lib/graphql/queries';
 
 const schema = z.object({
   name: z.string(),
-  categoryId: z.string(),
 });
 
 export default function Form() {
   const router = useRouter();
 
-  const { data, loading, error } = useQuery(GET_CATEGORIES);
-  const categories: ICategory[] = data?.categories;
-
-  const [addTag] = useMutation(ADD_TAG, {
-    refetchQueries: [{ query: GET_TAGS }],
+  const [addCategory] = useMutation(ADD_CATEGORY, {
+    refetchQueries: [{ query: GET_CATEGORIES }],
     onCompleted: (data) => {
-      router.push('/dashboard/tags');
+      router.push('/dashboard/categories');
     },
   });
 
   const [form, fields] = useForm({
-    id: 'create-tag-form',
+    id: 'create-category-form',
     onValidate: ({ formData }) => {
       return parse(formData, { schema });
     },
@@ -43,18 +39,15 @@ export default function Form() {
         console.warn('no submission', submission);
         return;
       }
-      const { name, categoryId } = submission.value;
-      console.log('submission', name, categoryId);
-      addTag({
+      const { name } = submission.value;
+      addCategory({
         variables: {
           name,
-          categoryId,
         },
       });
     },
     defaultValue: {
       name: '',
-      categoryId: '',
     },
   });
 
@@ -67,34 +60,16 @@ export default function Form() {
 				*/}
       <button type="submit" className="hidden" />
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Tag name */}
+        {/* Category name */}
         <FieldContainer>
           <Field
-            labelProps={{ children: 'Tag name' }}
+            labelProps={{ children: 'Category name' }}
             inputProps={{
               autoFocus: true,
-              placeholder: 'Enter tag name here',
+              placeholder: 'Enter category name here',
               ...conform.input(fields.name, { ariaAttributes: true }),
             }}
             errors={fields.name.errors}
-          />
-        </FieldContainer>
-
-        {/* Tag category */}
-        <FieldContainer>
-          <SelectField
-            labelProps={{ children: 'Tag category' }}
-            selectProps={{
-              placeholder: 'Select tag category here',
-              ...conform.select(fields.categoryId, { ariaAttributes: true }),
-            }}
-            items={
-              categories?.map((category) => ({
-                value: category.id,
-                label: category.name,
-              })) || []
-            }
-            errors={fields.categoryId.errors}
           />
         </FieldContainer>
       </div>
@@ -103,7 +78,7 @@ export default function Form() {
           <Link href="/dashboard/images">Cancel</Link>
         </Button>
 
-        <Button type="submit">Create Tag</Button>
+        <Button type="submit">Create Category</Button>
       </div>
     </form>
   );

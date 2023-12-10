@@ -44,7 +44,6 @@ export default function Form() {
         return;
       }
       const { name, categoryId } = submission.value;
-      console.log('submission', name, categoryId);
       addTag({
         variables: {
           name,

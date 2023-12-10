@@ -1,15 +1,15 @@
-import Form from '@/app/components/tags/create-form';
-import Breadcrumbs from '@/app/components/tags/breadcrumbs';
+import Form from '@/app/components/categories/create-form';
+import Breadcrumbs from '@/app/components/categories/breadcrumbs';
 
 export default async function Page() {
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Tags', href: '/dashboard/tags' },
+          { label: 'Categories', href: '/dashboard/categories' },
           {
-            label: 'Create Tag',
-            href: '/dashboard/tags/new',
+            label: 'Create Category',
+            href: '/dashboard/categories/new',
             active: true,
           },
         ]}
