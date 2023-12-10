@@ -4,6 +4,7 @@ import {
   PhotoIcon,
   HomeIcon,
   RectangleGroupIcon,
+  RectangleStackIcon,
   TagIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -24,6 +25,11 @@ const links = [
     name: 'Collections',
     href: '/dashboard/collections',
     icon: RectangleGroupIcon,
+  },
+  {
+    name: 'Categories',
+    href: '/dashboard/categories',
+    icon: RectangleStackIcon,
   },
   {
     name: 'Tags',
