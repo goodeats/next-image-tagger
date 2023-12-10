@@ -24,7 +24,7 @@ export default function ImageCard({ id }: ImageCardProps) {
 
   const image: IImage = data?.image;
   if (!image) return <p>Image not found</p>;
-  const { title, url, alt, createdAt, updatedAt } = image;
+  const { title, url, alt, createdAt, updatedAt, tags, collection } = image;
 
   const ImageTimestamps = () => (
     <>
@@ -44,7 +44,8 @@ export default function ImageCard({ id }: ImageCardProps) {
         objectFit="contain"
         className="rounded-md mb-4"
       />
-      <div>Tags: none</div>
+      <div>Collection: {collection?.name || 'n/a'}</div>
+      <div>Tags: {tags?.map((tag) => tag.name).join(', ') || 'none'}</div>
     </>
   );
 

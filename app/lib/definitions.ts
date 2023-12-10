@@ -17,8 +17,3 @@ export interface ITag extends Tag {
 export interface ICategory extends Category {
   tags: Tag[];
 }
-
-export type CollectionField = {
-  id: string;
-  name: string;
-};

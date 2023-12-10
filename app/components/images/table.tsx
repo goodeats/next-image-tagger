@@ -10,6 +10,7 @@ import { DisplayTable } from '../shared';
 import Link from 'next/link';
 import DeleteImageForm from './delete-form';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
+import { Button } from '../ui';
 
 export default function ImagesTable() {
   const { data, loading, error } = useQuery(GET_IMAGES);
@@ -47,6 +48,22 @@ export default function ImagesTable() {
     </div>
   );
 
+  const CollectionCell = ({ image }: { image: IImage }) => {
+    if (!image.collectionId) return <p>n/a</p>;
+
+    const { collection } = image;
+
+    return (
+      <div className="flex items-center gap-3">
+        <Button asChild variant="link">
+          <Link href={`/dashboard/collections/${collection.id}`}>
+            <p>{collection?.name || 'Collection'}</p>
+          </Link>
+        </Button>
+      </div>
+    );
+  };
+
   const rows = images?.map((image) => ({
     cells: [
       {
@@ -59,7 +76,7 @@ export default function ImagesTable() {
         ),
       },
       { children: image.title },
-      { children: image.collection?.name || image.collectionId || 'n/a' },
+      { children: <CollectionCell image={image} /> },
       { children: formatTimeStampsReadable(image.createdAt) },
       { children: image.tags?.length || 0 },
       {
