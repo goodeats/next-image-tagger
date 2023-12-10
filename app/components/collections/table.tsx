@@ -1,44 +1,34 @@
 'use client';
 
-import Image from 'next/image';
 import { UpdateImage } from '@/app/components/images/buttons';
 import { useQuery } from '@apollo/client';
-import { GET_IMAGES } from '@/app/lib/graphql/queries';
-import { IImage } from '@/app/lib/definitions';
-import { customLoader } from '@/app/lib/image-utils';
+import { GET_COLLECTIONS, GET_IMAGES } from '@/app/lib/graphql/queries';
+import { ICollection } from '@/app/lib/definitions';
 import { DisplayTable } from '../shared';
 import Link from 'next/link';
 import DeleteImageForm from './delete-form';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 
-export default function ImagesTable() {
-  const { data, loading, error } = useQuery(GET_IMAGES);
+export default function CollectionsTable() {
+  const { data, loading, error } = useQuery(GET_COLLECTIONS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  const images: IImage[] = data?.images;
-
-  const TableImage = ({ image }: { image: IImage }) => (
-    <Image
-      loader={customLoader}
-      src={image.url}
-      className="rounded-full"
-      width={28}
-      height={28}
-      alt={image.alt || 'image'}
-    />
-  );
+  const collections: ICollection[] = data?.collections;
+  console.log(collections);
 
   const SmallTable = () => (
     <div className="md:hidden">
-      {images?.map((image) => (
-        <div key={image.id} className="mb-2 w-full rounded-md bg-white p-4">
+      {collections?.map((collection) => (
+        <div
+          key={collection.id}
+          className="mb-2 w-full rounded-md bg-white p-4"
+        >
           <div className="flex items-center justify-between border-b pb-4">
             <div>
               <div className="mb-2 flex items-center">
-                <TableImage image={image} />
-                <p>{image.title}</p>
+                <p>{collection.name}</p>
               </div>
             </div>
           </div>
@@ -47,26 +37,24 @@ export default function ImagesTable() {
     </div>
   );
 
-  const rows = images?.map((image) => ({
+  const rows = collections?.map((collection) => ({
     cells: [
       {
         children: (
           <div className="flex items-center gap-3">
-            <Link href={`/dashboard/images/${image.id}`}>
-              <TableImage image={image} />
+            <Link href={`/dashboard/collections/${collection.id}`}>
+              <p>{collection.name}</p>
             </Link>
           </div>
         ),
       },
-      { children: image.title },
-      { children: image.collection?.name || image.collectionId || 'n/a' },
-      { children: formatTimeStampsReadable(image.createdAt) },
-      { children: 'tags' },
+      { children: collection.images?.length },
+      { children: formatTimeStampsReadable(collection.createdAt) },
       {
         children: (
           <div className="flex justify-end gap-3">
-            <UpdateImage id={image.id} />
-            <DeleteImageForm id={image.id} />
+            <UpdateImage id={collection.id} />
+            <DeleteImageForm id={collection.id} />
           </div>
         ),
       },
@@ -83,13 +71,11 @@ export default function ImagesTable() {
           {/* display for medium and larger screens */}
           <div className="my-4">
             <DisplayTable
-              caption={{ children: `${images?.length} Images` }}
+              caption={{ children: `${collections?.length} Collections` }}
               headerRows={[
-                { children: 'Image', className: 'w-[100px]' },
-                { children: 'Title' },
-                { children: 'Collection' },
+                { children: 'Name' },
+                { children: 'Images' },
                 { children: 'Date Added' },
-                { children: 'Tags' },
                 { children: 'Edit or Delete', className: 'sr-only' },
               ]}
               rows={rows}

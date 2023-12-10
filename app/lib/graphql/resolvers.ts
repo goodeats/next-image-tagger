@@ -17,6 +17,15 @@ export const resolvers = {
       return await context.prisma.collection.findMany();
     },
   },
+  Collection: {
+    images: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.image.findMany({
+        where: {
+          collectionId: parent.id,
+        },
+      });
+    },
+  },
   Mutation: {
     addImage: async (parent: any, args: any, context: Context) => {
       return await context.prisma.image.create({
@@ -45,6 +54,13 @@ export const resolvers = {
       return await context.prisma.image.delete({
         where: {
           id: args.id,
+        },
+      });
+    },
+    addCollection: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.collection.create({
+        data: {
+          name: args.name,
         },
       });
     },

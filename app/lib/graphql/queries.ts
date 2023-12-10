@@ -10,6 +10,10 @@ export const GET_IMAGES = gql`
       createdAt
       updatedAt
       collectionId
+      collection {
+        id
+        name
+      }
     }
   }
 `;
@@ -19,6 +23,14 @@ export const GET_COLLECTIONS = gql`
     collections {
       id
       name
+      createdAt
+      updatedAt
+      images {
+        id
+        url
+        title
+        alt
+      }
     }
   }
 `;

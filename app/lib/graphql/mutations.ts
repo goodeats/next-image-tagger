@@ -58,3 +58,14 @@ export const DELETE_IMAGE = gql`
     }
   }
 `;
+
+export const ADD_COLLECTION = gql`
+  mutation AddCollection($name: String!) {
+    addCollection(name: $name) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;

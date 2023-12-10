@@ -9,6 +9,7 @@ export const typeDefs = `#graphql
     createdAt: DateTime
     updatedAt: DateTime
     collectionId: String
+    collection: Collection
   }
 
   type Collection {
@@ -47,5 +48,6 @@ export const typeDefs = `#graphql
     addImage(url: String!, title: String, alt: String, collectionId: String): Image
     updateImage(id: ID!, url: String!, title: String, alt: String, collectionId: String): Image
     deleteImage(id: ID!): Image
+    addCollection(name: String!): Collection
   }
 `;

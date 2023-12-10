@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  UserGroupIcon,
+  PhotoIcon,
   HomeIcon,
   DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline';
@@ -17,6 +17,11 @@ const links = [
   {
     name: 'Images',
     href: '/dashboard/images',
+    icon: PhotoIcon,
+  },
+  {
+    name: 'Collections',
+    href: '/dashboard/collections',
     icon: DocumentDuplicateIcon,
   },
 ];
