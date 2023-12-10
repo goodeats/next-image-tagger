@@ -9,6 +9,7 @@ import { customLoader } from '@/app/lib/image-utils';
 import { DisplayTable } from '../shared';
 import Link from 'next/link';
 import DeleteImageForm from './delete-form';
+import { formatTimeStampsReadable } from '@/app/lib/format-date';
 
 export default function ImagesTable() {
   const { data, loading, error } = useQuery(GET_IMAGES);
@@ -58,8 +59,8 @@ export default function ImagesTable() {
         ),
       },
       { children: image.title },
-      { children: image.collectionId || 'none' },
-      { children: image.createdAt.toLocaleString() },
+      { children: image.collectionId || 'n/a' },
+      { children: formatTimeStampsReadable(image.createdAt) },
       { children: 'tags' },
       {
         children: (
