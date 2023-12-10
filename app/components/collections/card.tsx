@@ -6,7 +6,7 @@ import { ICollection } from '@/app/lib/definitions';
 import { DisplayCard } from '../shared/display-card';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateCollection } from './buttons';
-import DeleteImageForm from './delete-form';
+import DeleteCollectionForm from './delete-form';
 
 type CollectionCardProps = {
   id: string;
@@ -40,7 +40,7 @@ export default function CollectionCard({ id }: CollectionCardProps) {
   const CardFooter = () => (
     <div className="grid grid-cols-2 gap-6">
       <UpdateCollection id={id} />
-      {/* <DeleteImageForm id={id} /> */}
+      <DeleteCollectionForm id={id} />
     </div>
   );
 

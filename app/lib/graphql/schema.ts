@@ -50,5 +50,7 @@ export const typeDefs = `#graphql
     updateImage(id: ID!, url: String!, title: String, alt: String, collectionId: String): Image
     deleteImage(id: ID!): Image
     addCollection(name: String!): Collection
+    updateCollection(id: ID!, name: String!): Collection
+    deleteCollection(id: ID!): Collection
   }
 `;

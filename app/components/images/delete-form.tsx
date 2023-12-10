@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/client';
 import { DELETE_IMAGE } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
-import { conform, useForm } from '@conform-to/react';
+import { useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
 import { GET_IMAGES } from '@/app/lib/graphql/queries';
 

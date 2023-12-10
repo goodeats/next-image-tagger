@@ -3,30 +3,29 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/components/ui';
 import { useMutation } from '@apollo/client';
-import { DELETE_IMAGE } from '@/app/lib/graphql/mutations';
+import { DELETE_COLLECTION } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
-import { conform, useForm } from '@conform-to/react';
+import { useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
-import { GET_IMAGES } from '@/app/lib/graphql/queries';
+import { GET_COLLECTIONS } from '@/app/lib/graphql/queries';
 
 const schema = z.object({
-  imageId: z.string(),
+  collecitonId: z.string(),
 });
 
-export default function DeleteImageForm({ id }: { id: string }) {
+export default function DeleteCollectionForm({ id }: { id: string }) {
   const router = useRouter();
 
-  const [deleteImage] = useMutation(DELETE_IMAGE, {
-    refetchQueries: [{ query: GET_IMAGES }],
+  const [deleteImage] = useMutation(DELETE_COLLECTION, {
+    refetchQueries: [{ query: GET_COLLECTIONS }],
     onCompleted: (data) => {
-      console.log('image deleted');
-      router.push('/dashboard/images');
+      router.push('/dashboard/collections');
     },
   });
 
   const [form] = useForm({
-    id: 'delete-image-form',
+    id: 'delete-collection-form',
     onSubmit: (event, { formData }) => {
       event.preventDefault();
 
@@ -35,10 +34,10 @@ export default function DeleteImageForm({ id }: { id: string }) {
         console.warn('no submission', submission);
         return;
       }
-      const { imageId } = submission.value;
+      const { collecitonId } = submission.value;
       deleteImage({
         variables: {
-          id: imageId,
+          id: collecitonId,
         },
       });
     },
@@ -46,7 +45,7 @@ export default function DeleteImageForm({ id }: { id: string }) {
 
   return (
     <form method="post" {...form.props}>
-      <input type="hidden" name="imageId" value={id} />
+      <input type="hidden" name="collecitonId" value={id} />
       <Button
         variant="secondary"
         type="submit"

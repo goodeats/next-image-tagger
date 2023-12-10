@@ -69,3 +69,25 @@ export const ADD_COLLECTION = gql`
     }
   }
 `;
+
+export const UPDATE_COLLECTION = gql`
+  mutation UpdateCollection($id: ID!, $name: String!) {
+    updateCollection(id: $id, name: $name) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const DELETE_COLLECTION = gql`
+  mutation DeleteCollection($id: ID!) {
+    deleteCollection(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;

@@ -71,5 +71,22 @@ export const resolvers = {
         },
       });
     },
+    updateCollection: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.collection.update({
+        where: {
+          id: args.id,
+        },
+        data: {
+          name: args.name,
+        },
+      });
+    },
+    deleteCollection: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.collection.delete({
+        where: {
+          id: args.id,
+        },
+      });
+    },
   },
 };

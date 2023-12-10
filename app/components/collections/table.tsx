@@ -1,14 +1,14 @@
 'use client';
 
-import { UpdateImage } from '@/app/components/images/buttons';
 import { useQuery } from '@apollo/client';
-import { GET_COLLECTIONS, GET_IMAGES } from '@/app/lib/graphql/queries';
+import { GET_COLLECTIONS } from '@/app/lib/graphql/queries';
 import { ICollection } from '@/app/lib/definitions';
 import { DisplayTable } from '../shared';
 import Link from 'next/link';
-import DeleteImageForm from './delete-form';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { Button } from '../ui';
+import { UpdateCollection } from './buttons';
+import DeleteCollectionForm from './delete-form';
 
 export default function CollectionsTable() {
   const { data, loading, error } = useQuery(GET_COLLECTIONS);
@@ -17,7 +17,6 @@ export default function CollectionsTable() {
   if (error) return <p>Error :(</p>;
 
   const collections: ICollection[] = data?.collections;
-  console.log(collections);
 
   const SmallTable = () => (
     <div className="md:hidden">
@@ -42,11 +41,13 @@ export default function CollectionsTable() {
     cells: [
       {
         children: (
-          <Button asChild variant="link">
-            <Link href={`/dashboard/collections/${collection.id}`}>
-              <p>{collection.name}</p>
-            </Link>
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button asChild variant="link">
+              <Link href={`/dashboard/collections/${collection.id}`}>
+                <p>{collection.name}</p>
+              </Link>
+            </Button>
+          </div>
         ),
       },
       { children: collection.images?.length },
@@ -54,8 +55,8 @@ export default function CollectionsTable() {
       {
         children: (
           <div className="flex justify-end gap-3">
-            <UpdateImage id={collection.id} />
-            <DeleteImageForm id={collection.id} />
+            <UpdateCollection id={collection.id} />
+            <DeleteCollectionForm id={collection.id} />
           </div>
         ),
       },

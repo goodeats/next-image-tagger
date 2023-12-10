@@ -1,9 +1,9 @@
 'use client';
 
-import Form from '@/app/components/images/update-form';
-import Breadcrumbs from '@/app/components/images/breadcrumbs';
-import { IImage } from '@/app/lib/definitions';
-import { GET_IMAGE } from '@/app/lib/graphql/queries';
+import Form from '@/app/components/collections/update-form';
+import Breadcrumbs from '@/app/components/collections/breadcrumbs';
+import { ICollection } from '@/app/lib/definitions';
+import { GET_COLLECTION } from '@/app/lib/graphql/queries';
 import { useQuery } from '@apollo/client';
 import { notFound } from 'next/navigation';
 
@@ -15,33 +15,31 @@ type PageProps = {
 
 export default function Page({ params }: PageProps) {
   const id = params.id;
-  const { loading, error, data } = useQuery(GET_IMAGE, {
+  const { loading, error, data } = useQuery(GET_COLLECTION, {
     variables: { id },
   });
 
-  const image: IImage = data?.image;
+  const collection: ICollection = data?.collection;
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  if (!image) notFound();
-
-  const imageTitle = image?.title || '(No Title)';
+  if (!collection) notFound();
 
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Images', href: '/dashboard/images' },
-          { label: imageTitle, href: `/dashboard/images/${id}` },
+          { label: 'Collections', href: '/dashboard/collections' },
+          { label: collection.name, href: `/dashboard/collections/${id}` },
           {
             label: 'Edit',
-            href: `/dashboard/images/${id}/edit`,
+            href: `/dashboard/collections/${id}/edit`,
             active: true,
           },
         ]}
       />
-      <Form image={image} />
+      <Form collection={collection} />
     </main>
   );
 }
