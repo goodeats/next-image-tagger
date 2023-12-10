@@ -162,5 +162,12 @@ export const resolvers = {
         },
       });
     },
+    deleteTag: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.tag.delete({
+        where: {
+          id: args.id,
+        },
+      });
+    },
   },
 };

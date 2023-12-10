@@ -115,3 +115,15 @@ export const UPDATE_TAG = gql`
     }
   }
 `;
+
+export const DELETE_TAG = gql`
+  mutation DeleteTag($id: ID!) {
+    deleteTag(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+      categoryId
+    }
+  }
+`;

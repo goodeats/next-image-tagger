@@ -6,8 +6,7 @@ import { ITag } from '@/app/lib/definitions';
 import { DisplayCard } from '../shared/display-card';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateTag } from './buttons';
-// import { UpdateCollection } from './buttons';
-// import DeleteCollectionForm from './delete-form';
+import DeleteTagForm from './delete-form';
 
 type TagCardProps = {
   id: string;
@@ -42,7 +41,7 @@ export default function TagCard({ id }: TagCardProps) {
   const CardFooter = () => (
     <div className="grid grid-cols-2 gap-6">
       <UpdateTag id={id} />
-      {/* <DeleteCollectionForm id={id} /> */}
+      <DeleteTagForm id={id} />
     </div>
   );
 

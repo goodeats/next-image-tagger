@@ -3,29 +3,29 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/components/ui';
 import { useMutation } from '@apollo/client';
-import { DELETE_COLLECTION } from '@/app/lib/graphql/mutations';
+import { DELETE_TAG } from '@/app/lib/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
-import { GET_COLLECTIONS } from '@/app/lib/graphql/queries';
+import { GET_TAGS } from '@/app/lib/graphql/queries';
 
 const schema = z.object({
-  collecitonId: z.string(),
+  tagId: z.string(),
 });
 
-export default function DeleteCollectionForm({ id }: { id: string }) {
+export default function DeleteTagForm({ id }: { id: string }) {
   const router = useRouter();
 
-  const [deleteImage] = useMutation(DELETE_COLLECTION, {
-    refetchQueries: [{ query: GET_COLLECTIONS }],
+  const [deleteTag] = useMutation(DELETE_TAG, {
+    refetchQueries: [{ query: GET_TAGS }],
     onCompleted: (data) => {
-      router.push('/dashboard/collections');
+      router.push('/dashboard/tags');
     },
   });
 
   const [form] = useForm({
-    id: 'delete-collection-form',
+    id: 'delete-tag-form',
     onSubmit: (event, { formData }) => {
       event.preventDefault();
 
@@ -34,10 +34,10 @@ export default function DeleteCollectionForm({ id }: { id: string }) {
         console.warn('no submission', submission);
         return;
       }
-      const { collecitonId } = submission.value;
-      deleteImage({
+      const { tagId } = submission.value;
+      deleteTag({
         variables: {
-          id: collecitonId,
+          id: tagId,
         },
       });
     },
@@ -45,7 +45,7 @@ export default function DeleteCollectionForm({ id }: { id: string }) {
 
   return (
     <form method="post" {...form.props}>
-      <input type="hidden" name="collecitonId" value={id} />
+      <input type="hidden" name="tagId" value={id} />
       <Button
         variant="secondary"
         type="submit"

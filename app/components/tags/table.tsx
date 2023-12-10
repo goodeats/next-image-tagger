@@ -7,7 +7,8 @@ import { DisplayTable } from '../shared';
 import Link from 'next/link';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { Button } from '../ui';
-// import DeleteCollectionForm from './delete-form';
+import { UpdateTag } from './buttons';
+import DeleteTagForm from './delete-form';
 
 export default function TagsTable() {
   const { data, loading, error } = useQuery(GET_TAGS);
@@ -52,8 +53,8 @@ export default function TagsTable() {
       {
         children: (
           <div className="flex justify-end gap-3">
-            {/* <UpdateCollection id={tag.id} />
-            <DeleteCollectionForm id={tag.id} /> */}
+            <UpdateTag id={tag.id} />
+            <DeleteTagForm id={tag.id} />
           </div>
         ),
       },
