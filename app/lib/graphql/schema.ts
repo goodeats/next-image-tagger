@@ -46,6 +46,7 @@ export const typeDefs = `#graphql
     collections: [Collection]
     collection(id: ID!): Collection
     tags: [Tag]
+    tag(id: ID!): Tag
     categories: [Category]
   }
 

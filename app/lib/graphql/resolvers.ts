@@ -26,6 +26,13 @@ export const resolvers = {
     tags: async (parent: any, args: any, context: Context) => {
       return await context.prisma.tag.findMany();
     },
+    tag: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.tag.findUnique({
+        where: {
+          id: args.id,
+        },
+      });
+    },
     categories: async (parent: any, args: any, context: Context) => {
       return await context.prisma.category.findMany();
     },

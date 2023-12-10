@@ -9,7 +9,7 @@ export default function NotFound() {
       <h2 className="text-xl font-semibold">404 Not Found</h2>
       <p>Could not find the requested image.</p>
       <Button asChild>
-        <Link href="/dashboard/images">Go Back</Link>
+        <Link href="/dashboard/collections">Go Back</Link>
       </Button>
     </main>
   );

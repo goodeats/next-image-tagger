@@ -1,28 +1,28 @@
 'use client';
 
 import { useQuery } from '@apollo/client';
-import { GET_COLLECTION } from '@/app/lib/graphql/queries';
-import { ICollection } from '@/app/lib/definitions';
+import { GET_TAG } from '@/app/lib/graphql/queries';
+import { ITag } from '@/app/lib/definitions';
 import { DisplayCard } from '../shared/display-card';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
-import { UpdateCollection } from './buttons';
-import DeleteCollectionForm from './delete-form';
+// import { UpdateCollection } from './buttons';
+// import DeleteCollectionForm from './delete-form';
 
-type CollectionCardProps = {
+type TagCardProps = {
   id: string;
 };
 
-export default function CollectionCard({ id }: CollectionCardProps) {
-  const { data, loading, error } = useQuery(GET_COLLECTION, {
+export default function TagCard({ id }: TagCardProps) {
+  const { data, loading, error } = useQuery(GET_TAG, {
     variables: { id },
   });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  const collection: ICollection = data?.collection;
-  if (!collection) return <p>Collection not found</p>;
-  const { name, createdAt, updatedAt, images } = collection;
+  const tag: ITag = data?.tag;
+  if (!tag) return <p>Tag not found</p>;
+  const { name, createdAt, updatedAt, images, category } = tag;
 
   const Timestamps = () => (
     <div>
@@ -33,14 +33,15 @@ export default function CollectionCard({ id }: CollectionCardProps) {
 
   const CardContent = () => (
     <>
+      <div>Category: {category?.name || 'n/a'}</div>
       <div>Images: {images.length}</div>
     </>
   );
 
   const CardFooter = () => (
     <div className="grid grid-cols-2 gap-6">
-      <UpdateCollection id={id} />
-      <DeleteCollectionForm id={id} />
+      {/* <UpdateCollection id={id} />
+      <DeleteCollectionForm id={id} /> */}
     </div>
   );
 

@@ -92,6 +92,28 @@ export const GET_TAGS = gql`
   }
 `;
 
+export const GET_TAG = gql`
+  query Tag($id: ID!) {
+    tag(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+      categoryId
+      category {
+        id
+        name
+      }
+      images {
+        id
+        url
+        title
+        alt
+      }
+    }
+  }
+`;
+
 export const GET_CATEGORIES = gql`
   query Categories {
     categories {
