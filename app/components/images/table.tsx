@@ -1,12 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import { DeleteImage, UpdateImage } from '@/app/components/images/buttons';
+import { UpdateImage } from '@/app/components/images/buttons';
 import { useQuery } from '@apollo/client';
 import { GET_IMAGES } from '@/app/lib/graphql/queries';
 import { IImage } from '@/app/lib/definitions';
 import { customLoader } from '@/app/lib/image-utils';
 import { DisplayTable } from '../shared';
+import Link from 'next/link';
+import DeleteImageForm from './delete-form';
+import { formatTimeStampsReadable } from '@/app/lib/format-date';
 
 export default function ImagesTable() {
   const { data, loading, error } = useQuery(GET_IMAGES);
@@ -49,19 +52,21 @@ export default function ImagesTable() {
       {
         children: (
           <div className="flex items-center gap-3">
-            <TableImage image={image} />
+            <Link href={`/dashboard/images/${image.id}`}>
+              <TableImage image={image} />
+            </Link>
           </div>
         ),
       },
       { children: image.title },
-      { children: image.collectionId || 'none' },
-      { children: image.createdAt.toLocaleString() },
-      { children: 'tags' },
+      { children: image.collection?.name || image.collectionId || 'n/a' },
+      { children: formatTimeStampsReadable(image.createdAt) },
+      { children: image.tags?.length || 0 },
       {
         children: (
           <div className="flex justify-end gap-3">
             <UpdateImage id={image.id} />
-            <DeleteImage id={image.id} />
+            <DeleteImageForm id={image.id} />
           </div>
         ),
       },

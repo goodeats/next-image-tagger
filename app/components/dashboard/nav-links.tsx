@@ -1,9 +1,11 @@
 'use client';
 
 import {
-  UserGroupIcon,
+  PhotoIcon,
   HomeIcon,
-  DocumentDuplicateIcon,
+  RectangleGroupIcon,
+  RectangleStackIcon,
+  TagIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -17,7 +19,22 @@ const links = [
   {
     name: 'Images',
     href: '/dashboard/images',
-    icon: DocumentDuplicateIcon,
+    icon: PhotoIcon,
+  },
+  {
+    name: 'Collections',
+    href: '/dashboard/collections',
+    icon: RectangleGroupIcon,
+  },
+  {
+    name: 'Categories',
+    href: '/dashboard/categories',
+    icon: RectangleStackIcon,
+  },
+  {
+    name: 'Tags',
+    href: '/dashboard/tags',
+    icon: TagIcon,
   },
 ];
 
