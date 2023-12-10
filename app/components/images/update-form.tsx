@@ -1,8 +1,7 @@
 'use client';
 
-import { CollectionField, ICollection, IImage } from '@/app/lib/definitions';
+import { ICollection, IImage } from '@/app/lib/definitions';
 import Link from 'next/link';
-import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/components/ui';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_COLLECTIONS, GET_IMAGE } from '@/app/lib/graphql/queries';
