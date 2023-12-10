@@ -22,3 +22,17 @@ export const GET_COLLECTIONS = gql`
     }
   }
 `;
+
+export const GET_IMAGE = gql`
+  query Image($id: ID!) {
+    image(id: $id) {
+      id
+      url
+      title
+      alt
+      createdAt
+      updatedAt
+      collectionId
+    }
+  }
+`;

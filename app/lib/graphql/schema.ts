@@ -1,27 +1,29 @@
 export const typeDefs = `#graphql
+  scalar DateTime
+
   type Image {
     id: ID!
     url: String!
     title: String
     alt: String
-    createdAt: String
-    updatedAt: String
+    createdAt: DateTime
+    updatedAt: DateTime
     collectionId: String
   }
 
   type Collection {
     id: ID!
     name: String!
-    createdAt: String
-    updatedAt: String
+    createdAt: DateTime
+    updatedAt: DateTime
     images: [Image]
   }
 
   type Tag {
     id: ID!
     name: String!
-    createdAt: String
-    updatedAt: String
+    createdAt: DateTime
+    updatedAt: DateTime
     images: [Image]
     categoryId: String
   }
@@ -29,14 +31,15 @@ export const typeDefs = `#graphql
   type Category {
     id: ID!
     name: String!
-    createdAt: String
-    updatedAt: String
+    createdAt: DateTime
+    updatedAt: DateTime
     tags: [Tag]
   }
 
   type Query {
     hello: String
     images: [Image]
+    image(id: ID!): Image
     collections: [Collection]
   }
 

@@ -7,6 +7,7 @@ import { GET_IMAGES } from '@/app/lib/graphql/queries';
 import { IImage } from '@/app/lib/definitions';
 import { customLoader } from '@/app/lib/image-utils';
 import { DisplayTable } from '../shared';
+import Link from 'next/link';
 
 export default function ImagesTable() {
   const { data, loading, error } = useQuery(GET_IMAGES);
@@ -49,7 +50,9 @@ export default function ImagesTable() {
       {
         children: (
           <div className="flex items-center gap-3">
-            <TableImage image={image} />
+            <Link href={`/dashboard/images/${image.id}`}>
+              <TableImage image={image} />
+            </Link>
           </div>
         ),
       },

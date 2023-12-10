@@ -6,6 +6,13 @@ export const resolvers = {
     images: async (parent: any, args: any, context: Context) => {
       return await context.prisma.image.findMany();
     },
+    image: async (parent: any, args: any, context: Context) => {
+      return await context.prisma.image.findUnique({
+        where: {
+          id: args.id,
+        },
+      });
+    },
     collections: async (parent: any, args: any, context: Context) => {
       return await context.prisma.collection.findMany();
     },
