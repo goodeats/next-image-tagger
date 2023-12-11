@@ -46,17 +46,20 @@ export const resolvers = {
   },
   Image: {
     tags: async (parent: any, args: any, context: Context) => {
-      return await context.prisma.tag.findMany({
-        where: {
-          images: {
-            some: {
-              id: parent.id,
-            },
+      return await context.prisma.tagsOnImages
+        .findMany({
+          where: {
+            imageId: parent.id,
           },
-        },
-      });
+          include: {
+            tag: true,
+          },
+        })
+        .then((tagsOnImages) => tagsOnImages.map((toi) => toi.tag));
     },
     collection: async (parent: any, args: any, context: Context) => {
+      if (!parent.collectionId) return null;
+
       return await context.prisma.collection.findUnique({
         where: {
           id: parent.collectionId,
