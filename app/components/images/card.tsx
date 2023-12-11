@@ -9,6 +9,8 @@ import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateImage } from './buttons';
 import { DisplayCard } from '../shared';
 import DeleteImageForm from './delete-form';
+import Link from 'next/link';
+import { Button } from '../ui';
 
 type ImageCardProps = {
   id: string;
@@ -45,7 +47,12 @@ export default function ImageCard({ id }: ImageCardProps) {
         className="rounded-md mb-4"
       />
       <div>Collection: {collection?.name || 'n/a'}</div>
-      <div>Tags: {tags?.map((tag) => tag.name).join(', ') || 'none'}</div>
+      <div>
+        Tags:{' '}
+        <Button asChild variant="link">
+          <Link href={`/dashboard/images/${id}/tags`}>{tags?.length || 0}</Link>
+        </Button>
+      </div>
     </>
   );
 

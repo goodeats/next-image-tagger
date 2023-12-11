@@ -79,7 +79,13 @@ export default function ImagesTable() {
       },
       { children: <CollectionCell image={image} /> },
       { children: formatTimeStampsReadable(image.createdAt) },
-      { children: image.tags?.length || 0 },
+      {
+        children: (
+          <DisplayTableCellLink href={`/dashboard/images/${image.id}/tags`}>
+            {image.tags?.length || 0}
+          </DisplayTableCellLink>
+        ),
+      },
       {
         children: (
           <div className="flex justify-end gap-3">
