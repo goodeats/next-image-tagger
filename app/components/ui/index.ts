@@ -2,6 +2,7 @@
 // all components in this directory are scaffolded
 // using https://ui.shadcn.com/docs
 
+export { Badge, badgeVariants } from './badge';
 export { Button, buttonVariants, type ButtonProps } from './button';
 export {
   Card,
