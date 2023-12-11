@@ -64,5 +64,6 @@ export const typeDefs = `#graphql
     addCategory(name: String!): Category
     updateCategory(id: ID!, name: String!): Category
     deleteCategory(id: ID!): Category
+    updateTagsOnImage(imageId: ID!, tagIds: [ID!]!): Image
   }
 `;

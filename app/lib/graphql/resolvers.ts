@@ -210,5 +210,56 @@ export const resolvers = {
         },
       });
     },
+    updateTagsOnImage: async (parent: any, args: any, context: Context) => {
+      const { imageId, tagIds } = args;
+
+      // Wrap the operations in a transaction
+      await context.prisma.$transaction([
+        // Delete all tags not in the tagIds array
+        context.prisma.tagsOnImages.deleteMany({
+          where: {
+            imageId: imageId,
+            tagId: {
+              notIn: tagIds,
+            },
+          },
+        }),
+        // Upsert all tags in the tagIds array
+        ...tagIds.map((tagId: string) =>
+          context.prisma.tagsOnImages.upsert({
+            where: {
+              imageId_tagId: {
+                imageId: imageId,
+                tagId: tagId,
+              },
+            },
+            update: {},
+            create: {
+              imageId: imageId,
+              tagId: tagId,
+            },
+          })
+        ),
+      ]);
+
+      // Return the updated image
+      return context.prisma.image.findUnique({
+        where: {
+          id: imageId,
+        },
+        include: {
+          tags: {
+            include: {
+              tag: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      });
+    },
   },
 };

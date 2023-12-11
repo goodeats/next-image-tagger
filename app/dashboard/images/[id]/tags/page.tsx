@@ -1,11 +1,11 @@
 'use client';
 
-import Form from '@/app/components/images/update-form';
 import Breadcrumbs from '@/app/components/images/breadcrumbs';
 import { IImage } from '@/app/lib/definitions';
 import { GET_IMAGE } from '@/app/lib/graphql/queries';
 import { useQuery } from '@apollo/client';
 import { notFound } from 'next/navigation';
+import ImageTagger from '@/app/components/images/image-tagger';
 
 type PageProps = {
   params: {
@@ -41,7 +41,7 @@ export default function Page({ params }: PageProps) {
           },
         ]}
       />
-      {/* <Form image={image} /> */}
+      <ImageTagger image={image} />
     </main>
   );
 }

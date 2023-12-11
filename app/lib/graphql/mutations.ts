@@ -161,14 +161,15 @@ export const DELETE_CATEGORY = gql`
   }
 `;
 
-export const ADD_TAGS_TO_IMAGE = gql`
-  mutation AddTagsToImage($imageId: ID!, $tagIds: [ID!]!) {
-    addTagsToImage(imageId: $imageId, tagIds: $tagIds) {
+export const UPDATE_TAGS_TO_IMAGE = gql`
+  mutation UpdateTagsOnImage($imageId: ID!, $tagIds: [ID!]!) {
+    updateTagsOnImage(imageId: $imageId, tagIds: $tagIds) {
       id
-      name
-      createdAt
-      updatedAt
-      categoryId
+      title
+      tags {
+        id
+        name
+      }
     }
   }
 `;
