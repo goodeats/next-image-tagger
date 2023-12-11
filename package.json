@@ -6,10 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "setup": "prisma generate && prisma db seed",
+    "prisma:seed": "npx prisma db seed",
     "lint": "next lint",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "prisma:seed": "npx prisma db seed"
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",

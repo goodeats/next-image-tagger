@@ -42,7 +42,7 @@ model Tag {
   updatedAt DateTime @updatedAt
 
   images    TagsOnImages[]
-  category  Category @relation(fields: [categoryId], references: [id])
+  category  Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
 }
 
@@ -59,9 +59,9 @@ model Category {
 model TagsOnImages {
   @@id([imageId, tagId])
 
-  image     Image    @relation(fields: [imageId], references: [id])
+  image     Image    @relation(fields: [imageId], references: [id], onDelete: Cascade)
   imageId   String
-  tag       Tag      @relation(fields: [tagId], references: [id])
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
   tagId     String
 
   createdAt DateTime @default(now())
