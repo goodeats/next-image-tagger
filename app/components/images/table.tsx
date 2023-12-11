@@ -11,6 +11,7 @@ import Link from 'next/link';
 import DeleteImageForm from './delete-form';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { Button } from '../ui';
+import { DisplayTableCellLink } from '../shared/display-table';
 
 export default function ImagesTable() {
   const { data, loading, error } = useQuery(GET_IMAGES);
@@ -54,13 +55,9 @@ export default function ImagesTable() {
     const { collection } = image;
 
     return (
-      <div className="flex items-center gap-3">
-        <Button asChild variant="link">
-          <Link href={`/dashboard/collections/${collection.id}`}>
-            <p>{collection?.name || 'Collection'}</p>
-          </Link>
-        </Button>
-      </div>
+      <DisplayTableCellLink href={`/dashboard/collections/${collection.id}`}>
+        {collection?.name || 'Collection'}
+      </DisplayTableCellLink>
     );
   };
 
@@ -68,14 +65,18 @@ export default function ImagesTable() {
     cells: [
       {
         children: (
-          <div className="flex items-center gap-3">
-            <Link href={`/dashboard/images/${image.id}`}>
-              <TableImage image={image} />
-            </Link>
-          </div>
+          <DisplayTableCellLink href={`/dashboard/images/${image.id}`}>
+            <TableImage image={image} />
+          </DisplayTableCellLink>
         ),
       },
-      { children: image.title },
+      {
+        children: (
+          <DisplayTableCellLink href={`/dashboard/images/${image.id}`}>
+            {image.title || '(no title)'}
+          </DisplayTableCellLink>
+        ),
+      },
       { children: <CollectionCell image={image} /> },
       { children: formatTimeStampsReadable(image.createdAt) },
       { children: image.tags?.length || 0 },

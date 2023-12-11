@@ -1,5 +1,6 @@
 import { cn } from '@/app/lib/utils';
 import {
+  Button,
   Table,
   TableBody,
   TableCaption,
@@ -8,6 +9,29 @@ import {
   TableHeader,
   TableRow,
 } from '../ui';
+import Link from 'next/link';
+
+type DisplayTableCellLinkProps = {
+  href: string;
+  children: React.ReactNode | string;
+  className?: string;
+};
+
+export const DisplayTableCellLink = ({
+  href,
+  children,
+  className,
+}: DisplayTableCellLinkProps) => {
+  return (
+    <div className={cn('flex items-center gap-3', className)}>
+      <Button asChild variant="link">
+        <Link href={href}>
+          <p>{children}</p>
+        </Link>
+      </Button>
+    </div>
+  );
+};
 
 type ClassNameProps = {
   className?: string;
