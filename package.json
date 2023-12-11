@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "setup": "prisma generate && prisma db seed",
+    "setup": "npx prisma generate && npx prisma db push && npx prisma db seed",
     "prisma:seed": "npx prisma db seed",
     "lint": "next lint",
     "cypress:open": "cypress open",

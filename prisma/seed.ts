@@ -88,11 +88,13 @@ const createTags = async () => {
     });
 
     if (category) {
+      console.log(`Category for tagging: ${category.name}`);
       const exists = await prisma.tag.findFirst({
         where: { name },
       });
 
       if (!exists) {
+        console.log(`Category tag: ${name}`);
         await prisma.tag.create({
           data: {
             name,

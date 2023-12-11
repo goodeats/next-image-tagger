@@ -4,6 +4,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### Supabase (optional)
+
 To set up the database if using [Supabase](https://supabase.com/) (otherwise use your own method):
 
 - Create a new project in Supabase (free for hobby accounts, excuse to try it out)
@@ -12,21 +14,18 @@ To set up the database if using [Supabase](https://supabase.com/) (otherwise use
 - Select `URI` and copy
 - Copy `.env.example` file to `.env` and place URI string as `DATABASE_URL`
 - Replace `[YOUR-PASSWORD]` with the password you remembered
-- Run `npx prisma generate` to create the tables in your database
-- Run `npx prisma db push` and wait for it to finish
-- In Supabase check the project `Table Editor` to see your tables
 
-To set up prisma when db connection is made:
+### To set up prisma when db connection is made:
 
 ```bash
 npm run setup
 ```
 
-Re-run `npx prisma db push` if using Supabase
-
 This will generate the prisma client code and seed the database
 
-To run the development server:
+In Supabase check the project `Table Editor` to see your tables
+
+### To run the development server:
 
 ```bash
 npm run dev
