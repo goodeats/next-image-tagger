@@ -1,5 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import { createCategories, createImages, createTags } from './seed-create';
+import {
+  createCategories,
+  createCollections,
+  createImages,
+  createTags,
+} from './seed-create';
 const prisma = new PrismaClient();
 
 const resetDb = async () => {
@@ -15,6 +20,10 @@ const seedRun = async () => {
   console.log('Resetting database...');
   await resetDb();
   console.log('Database reset.');
+
+  console.log('Creating collections...');
+  await createCollections();
+  console.log('Collections created.');
 
   console.log('Creating images...');
   await createImages();
