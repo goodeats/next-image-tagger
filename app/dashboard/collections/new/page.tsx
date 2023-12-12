@@ -1,5 +1,5 @@
 import Form from '@/app/components/collections/create-form';
-import Breadcrumbs from '@/app/components/collections/breadcrumbs';
+import { Breadcrumbs } from '@/app/components/shared';
 
 export default async function Page() {
   return (

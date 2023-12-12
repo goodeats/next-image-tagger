@@ -1,7 +1,7 @@
 'use client';
 
 import Form from '@/app/components/categories/update-form';
-import Breadcrumbs from '@/app/components/categories/breadcrumbs';
+import { Breadcrumbs } from '@/app/components/shared';
 import { ICategory } from '@/app/lib/definitions';
 import { GET_CATEGORY } from '@/app/lib/graphql/queries';
 import { useQuery } from '@apollo/client';

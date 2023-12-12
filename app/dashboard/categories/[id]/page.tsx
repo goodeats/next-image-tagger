@@ -1,6 +1,6 @@
 'use client';
 
-import Breadcrumbs from '@/app/components/categories/breadcrumbs';
+import { Breadcrumbs } from '@/app/components/shared';
 import CategoryCard from '@/app/components/categories/card';
 import { ICategory } from '@/app/lib/definitions';
 import { GET_CATEGORY } from '@/app/lib/graphql/queries';

@@ -1,6 +1,6 @@
 'use client';
 
-import Breadcrumbs from '@/app/components/collections/breadcrumbs';
+import { Breadcrumbs } from '@/app/components/shared';
 import TagCard from '@/app/components/tags/card';
 import { ITag } from '@/app/lib/definitions';
 import { GET_TAG } from '@/app/lib/graphql/queries';
