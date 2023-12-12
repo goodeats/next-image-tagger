@@ -1,8 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useQuery } from '@apollo/client';
-import { GET_IMAGE } from '@/app/lib/graphql/queries';
 import { IImage } from '@/app/lib/definitions';
 import { customLoader } from '@/app/lib/image-utils';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
@@ -22,20 +20,11 @@ import {
 } from '../ui';
 
 type ImageCardProps = {
-  id: string;
+  image: IImage;
 };
 
-export default function ImageCard({ id }: ImageCardProps) {
-  const { data, loading, error } = useQuery(GET_IMAGE, {
-    variables: { id },
-  });
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  const image: IImage = data?.image;
-  if (!image) return <p>Image not found</p>;
-  const { title, url, alt, createdAt, updatedAt, tags, collection } = image;
+export default function ImageCard({ image }: ImageCardProps) {
+  const { id, title, url, alt, createdAt, updatedAt, tags, collection } = image;
 
   const CardImage = () => (
     <Image

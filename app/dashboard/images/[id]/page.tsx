@@ -40,7 +40,7 @@ export default function Page({ params }: PageProps) {
           },
         ]}
       />
-      <ImageCard id={id} />
+      <ImageCard image={image} />
     </main>
   );
 }
