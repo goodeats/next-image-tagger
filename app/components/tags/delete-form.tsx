@@ -47,7 +47,7 @@ export default function DeleteTagForm({ id }: { id: string }) {
     <form method="post" {...form.props}>
       <input type="hidden" name="tagId" value={id} />
       <Button
-        variant="secondary"
+        variant="destructive"
         type="submit"
         className="rounded-md border p-2"
       >
