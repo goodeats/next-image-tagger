@@ -2,7 +2,7 @@
 
 import { useQuery } from '@apollo/client';
 import { GET_TAG } from '@/app/lib/graphql/queries';
-import { ITag } from '@/app/lib/definitions';
+import { IImage, ITag } from '@/app/lib/definitions';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateTag } from './buttons';
 import DeleteTagForm from './delete-form';
@@ -19,6 +19,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { customLoader } from '@/app/lib/image-utils';
+import ImagesGrid from '../images/images-grid';
 
 type TagCardProps = {
   tag: ITag;
@@ -36,40 +37,6 @@ export default function TagCard({ tag }: TagCardProps) {
             {category.name}
           </Link>
         </Button>
-      </div>
-    );
-  };
-
-  const Images = () => {
-    const NoImages = () => <div className="text-muted-foreground">none</div>;
-
-    const WithImages = () => (
-      <div className="grid grid-cols-4 gap-6">
-        {images.map((image) => {
-          const { url, alt } = image;
-          return (
-            <Link key={image.id} href={`/dashboard/images/${image.id}`}>
-              <div className="border rounded-md">
-                <Image
-                  loader={customLoader}
-                  src={url}
-                  alt={alt || 'no alt'}
-                  width={500}
-                  height={500}
-                  objectFit="contain"
-                  className="flex rounded-md mb-4"
-                />
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-    );
-
-    return (
-      <div>
-        <h6 className="text-h6 mb-2">Images</h6>
-        {images.length ? <WithImages /> : <NoImages />}
       </div>
     );
   };
@@ -97,7 +64,7 @@ export default function TagCard({ tag }: TagCardProps) {
       <CardContent>
         <Category />
         <Separator className="my-4" />
-        <Images />
+        <ImagesGrid images={images as IImage[]} />
         <Separator className="my-4" />
       </CardContent>
       <CardFooter className="flex justify-between">

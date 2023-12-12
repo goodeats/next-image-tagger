@@ -1,6 +1,6 @@
 'use client';
 
-import { ICollection } from '@/app/lib/definitions';
+import { ICollection, IImage } from '@/app/lib/definitions';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateCollection } from './buttons';
 import DeleteCollectionForm from './delete-form';
@@ -16,6 +16,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { customLoader } from '@/app/lib/image-utils';
+import ImagesGrid from '../images/images-grid';
 
 type CollectionCardProps = {
   collection: ICollection;
@@ -23,40 +24,6 @@ type CollectionCardProps = {
 
 export default function CollectionCard({ collection }: CollectionCardProps) {
   const { id, name, createdAt, updatedAt, images } = collection;
-
-  const Images = () => {
-    const NoImages = () => <div className="text-muted-foreground">none</div>;
-
-    const WithImages = () => (
-      <div className="grid grid-cols-4 gap-6">
-        {images.map((image) => {
-          const { url, alt } = image;
-          return (
-            <Link key={image.id} href={`/dashboard/images/${image.id}`}>
-              <div className="border rounded-md">
-                <Image
-                  loader={customLoader}
-                  src={url}
-                  alt={alt || 'no alt'}
-                  width={500}
-                  height={500}
-                  objectFit="contain"
-                  className="flex rounded-md mb-4"
-                />
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-    );
-
-    return (
-      <div>
-        <h6 className="text-h6 mb-2">Images</h6>
-        {images.length ? <WithImages /> : <NoImages />}
-      </div>
-    );
-  };
 
   const TimeStamps = () => (
     <div className="text-body-xs text-muted-foreground">
@@ -79,7 +46,7 @@ export default function CollectionCard({ collection }: CollectionCardProps) {
         <CardDescription>Collection Details</CardDescription>
       </CardHeader>
       <CardContent>
-        <Images />
+        <ImagesGrid images={images as IImage[]} />
         <Separator />
       </CardContent>
       <CardFooter className="flex justify-between">
