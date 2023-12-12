@@ -8,6 +8,7 @@ import { Badge } from '../ui';
 
 export default function ImageTagger({ image }: { image: IImage }) {
   const { url, alt, tags, collection } = image;
+  const imageTagIds = tags.map((tag) => tag.id);
 
   const Tags = () => (
     <div>
@@ -35,7 +36,7 @@ export default function ImageTagger({ image }: { image: IImage }) {
         <div>Collection: {collection?.name || 'n/a'}</div>
         <Tags />
       </div>
-      <ImageTagsForm image={image} />
+      <ImageTagsForm image={image} tagIds={imageTagIds} />
     </div>
   );
 }

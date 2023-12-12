@@ -2,7 +2,7 @@
 
 import { ICategory, IImage } from '@/app/lib/definitions';
 import Link from 'next/link';
-import { Button } from '@/app/components/ui';
+import { Badge, Button } from '@/app/components/ui';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_CATEGORIES, GET_IMAGE } from '@/app/lib/graphql/queries';
 import { UPDATE_TAGS_TO_IMAGE } from '@/app/lib/graphql/mutations';
@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { conform, useForm } from '@conform-to/react';
 import { parse } from '@conform-to/zod';
+import { useState } from 'react';
 
 type TagHashObject = {
   [key: string]: {
@@ -23,10 +24,15 @@ const schema = z.object({
   tagIds: z.string().array(),
 });
 
-export default function ImageTagsForm({ image }: { image: IImage }) {
+export default function ImageTagsForm({
+  image,
+  tagIds,
+}: {
+  image: IImage;
+  tagIds: string[];
+}) {
+  const [checkedTags, setCheckedTags] = useState(tagIds ?? []);
   const router = useRouter();
-
-  // console.log('image tags:', image.tags);
 
   const { data, loading, error } = useQuery(GET_CATEGORIES);
   const categories: ICategory[] = data?.categories;
@@ -34,15 +40,20 @@ export default function ImageTagsForm({ image }: { image: IImage }) {
   const [updateImage] = useMutation(UPDATE_TAGS_TO_IMAGE, {
     refetchQueries: [{ query: GET_IMAGE, variables: { id: image.id } }],
     onCompleted: (data) => {
-      console.log('image updated');
       router.push(`/dashboard/images/${image.id}`);
     },
   });
 
   const [form, fields] = useForm({
     id: 'image-tags-form',
+    shouldValidate: 'onInput',
     onValidate: ({ formData }) => {
-      return parse(formData, { schema });
+      const submission = parse(formData, { schema });
+      if (submission.value) {
+        const { tagIds } = submission.value;
+        setCheckedTags(tagIds);
+      }
+      return submission;
     },
     onSubmit: (event, { formData }) => {
       event.preventDefault();
@@ -64,7 +75,7 @@ export default function ImageTagsForm({ image }: { image: IImage }) {
     },
     defaultValue: {
       imageId: image.id ?? '',
-      tagIds: image.tags ?? [],
+      tagIds: checkedTags ?? [],
     },
   });
 
@@ -93,11 +104,18 @@ export default function ImageTagsForm({ image }: { image: IImage }) {
               options: Object.keys(tagHash),
             })
             .map((props, index) => {
+              const { defaultChecked } = props;
+              const tagName = tagHash[props.value].tagName;
               return (
-                <div key={index}>
-                  <input {...props} />
-                  <label>{tagHash[props.value].tagName}</label>
-                </div>
+                <label key={index}>
+                  <Badge
+                    variant={defaultChecked ? 'default' : 'outline'}
+                    className="mr-2 mb-2"
+                  >
+                    <input {...props} className="hidden" />
+                    {tagName}
+                  </Badge>
+                </label>
               );
             })}
         </fieldset>
