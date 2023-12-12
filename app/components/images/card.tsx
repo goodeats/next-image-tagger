@@ -10,7 +10,16 @@ import { UpdateImage } from './buttons';
 import { DisplayCard } from '../shared';
 import DeleteImageForm from './delete-form';
 import Link from 'next/link';
-import { Button } from '../ui';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Separator,
+} from '../ui';
 
 type ImageCardProps = {
   id: string;
@@ -28,53 +37,59 @@ export default function ImageCard({ id }: ImageCardProps) {
   if (!image) return <p>Image not found</p>;
   const { title, url, alt, createdAt, updatedAt, tags, collection } = image;
 
-  const ImageTimestamps = () => (
-    <>
+  const CardImage = () => (
+    <Image
+      loader={customLoader}
+      src={url}
+      alt={alt || 'no alt'}
+      width={500}
+      height={500}
+      objectFit="contain"
+      className="rounded-md mb-4"
+    />
+  );
+
+  const Collection = () => <div>Collection: {collection?.name || 'n/a'}</div>;
+
+  const Tags = () => (
+    <div>
+      Tags:{' '}
+      <Button asChild variant="link">
+        <Link href={`/dashboard/images/${id}/tags`}>{tags?.length || 0}</Link>
+      </Button>
+    </div>
+  );
+
+  const TimeStamps = () => (
+    <div className="text-body-xs text-muted-foreground">
       <p>Created: {formatTimeStampsReadable(createdAt)}</p>
       <p>Updated: {formatTimeStampsReadable(updatedAt)}</p>
-    </>
+    </div>
   );
 
-  const CardContent = () => (
-    <>
-      <Image
-        loader={customLoader}
-        src={url}
-        alt={alt || 'no alt'}
-        width={500}
-        height={500}
-        objectFit="contain"
-        className="rounded-md mb-4"
-      />
-      <div>Collection: {collection?.name || 'n/a'}</div>
-      <div>
-        Tags:{' '}
-        <Button asChild variant="link">
-          <Link href={`/dashboard/images/${id}/tags`}>{tags?.length || 0}</Link>
-        </Button>
-      </div>
-    </>
-  );
-
-  const CardFooter = () => (
-    <div className="grid grid-cols-2 gap-6">
+  const Buttons = () => (
+    <div className="flex space-x-4">
       <UpdateImage id={id} />
       <DeleteImageForm id={id} />
     </div>
   );
 
   return (
-    <DisplayCard
-      cardHeaderProps={{
-        title: title || '(no title)',
-        description: <ImageTimestamps />,
-      }}
-      cardContentProps={{
-        children: <CardContent />,
-      }}
-      cardFooterProps={{
-        children: <CardFooter />,
-      }}
-    />
+    <Card>
+      <CardHeader>
+        <CardTitle>{title || '(no title)'}</CardTitle>
+        <CardDescription>Image details</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <CardImage />
+        <Collection />
+        <Tags />
+        <Separator className="mb-4" />
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <TimeStamps />
+        <Buttons />
+      </CardFooter>
+    </Card>
   );
 }

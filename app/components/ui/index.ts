@@ -26,6 +26,7 @@ export {
   SelectScrollUpButton,
   SelectScrollDownButton,
 } from './select';
+export { Separator } from './separator';
 export {
   Table,
   TableHeader,
