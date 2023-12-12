@@ -88,12 +88,19 @@ export default function ImageTagsForm({
         <h6 className="text-h6 mb-2">{category.name}</h6>
         {category.tags.map((tag, index) => {
           const { id, name } = tag;
+          const badgeVariant = () => {
+            const initialTag = tagIds.includes(id);
+            const currentTag = checkedTags.includes(id);
+            if (currentTag) {
+              return initialTag ? 'default' : 'success';
+            } else {
+              return initialTag ? 'warning' : 'outline';
+            }
+          };
+
           return (
             <label key={index}>
-              <Badge
-                variant={checkedTags.includes(id) ? 'default' : 'outline'}
-                className="mr-2 mb-2"
-              >
+              <Badge variant={badgeVariant()} className="mr-2 mb-2">
                 <input
                   type="checkbox"
                   {...conform.input(fields.tagIds)}
