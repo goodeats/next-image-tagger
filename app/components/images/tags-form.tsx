@@ -82,6 +82,34 @@ export default function ImageTagsForm({
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
+  const Category = ({ category }: { category: ICategory }) => {
+    return (
+      <div className="mb-4">
+        <h6 className="text-h6 mb-2">{category.name}</h6>
+        {category.tags.map((tag, index) => {
+          const { id, name } = tag;
+          return (
+            <label key={index}>
+              <Badge
+                variant={checkedTags.includes(id) ? 'default' : 'outline'}
+                className="mr-2 mb-2"
+              >
+                <input
+                  type="checkbox"
+                  {...conform.input(fields.tagIds)}
+                  value={id}
+                  defaultChecked={checkedTags.includes(id)}
+                  className="hidden"
+                />
+                {name}
+              </Badge>
+            </label>
+          );
+        })}
+      </div>
+    );
+  };
+
   const Categories = () => {
     // https://conform.guide/checkbox-and-radio-group#checkbox
     // tagHash is a quick and dirty hack to use conform's checkbox group
@@ -97,27 +125,10 @@ export default function ImageTagsForm({
     return (
       <div className="flex items-center justify-between space-x-2">
         <fieldset>
-          <legend>Categories</legend>
-          {conform
-            .collection(fields.tagIds, {
-              type: 'checkbox',
-              options: Object.keys(tagHash),
-            })
-            .map((props, index) => {
-              const { defaultChecked } = props;
-              const tagName = tagHash[props.value].tagName;
-              return (
-                <label key={index}>
-                  <Badge
-                    variant={defaultChecked ? 'default' : 'outline'}
-                    className="mr-2 mb-2"
-                  >
-                    <input {...props} className="hidden" />
-                    {tagName}
-                  </Badge>
-                </label>
-              );
-            })}
+          <legend className="text-lg mb-4">Categories</legend>
+          {categories.map((category, index) => (
+            <Category key={index} category={category} />
+          ))}
         </fieldset>
       </div>
     );
