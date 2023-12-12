@@ -21,7 +21,7 @@ model Image {
 
   collection Collection? @relation(fields: [collectionId], references: [id])
   collectionId String?
-  tags      Tag[]
+  tags      TagsOnImages[]
 }
 
 model Collection {
@@ -41,8 +41,8 @@ model Tag {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  images    Image[]
-  category  Category @relation(fields: [categoryId], references: [id])
+  images    TagsOnImages[]
+  category  Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
 }
 
@@ -54,4 +54,16 @@ model Category {
   updatedAt DateTime @updatedAt
 
   tags      Tag[]
+}
+
+model TagsOnImages {
+  @@id([imageId, tagId])
+
+  image     Image    @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId   String
+  tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

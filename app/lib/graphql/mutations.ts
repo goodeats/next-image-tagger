@@ -160,3 +160,16 @@ export const DELETE_CATEGORY = gql`
     }
   }
 `;
+
+export const UPDATE_TAGS_TO_IMAGE = gql`
+  mutation UpdateTagsOnImage($imageId: ID!, $tagIds: [ID!]!) {
+    updateTagsOnImage(imageId: $imageId, tagIds: $tagIds) {
+      id
+      title
+      tags {
+        id
+        name
+      }
+    }
+  }
+`;

@@ -48,7 +48,7 @@ export default function DeleteImageForm({ id }: { id: string }) {
     <form method="post" {...form.props}>
       <input type="hidden" name="imageId" value={id} />
       <Button
-        variant="secondary"
+        variant="destructive"
         type="submit"
         className="rounded-md border p-2"
       >

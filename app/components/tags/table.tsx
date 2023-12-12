@@ -9,6 +9,7 @@ import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { Button } from '../ui';
 import { UpdateTag } from './buttons';
 import DeleteTagForm from './delete-form';
+import { DisplayTableCellLink } from '../shared/display-table';
 
 export default function TagsTable() {
   const { data, loading, error } = useQuery(GET_TAGS);
@@ -47,7 +48,15 @@ export default function TagsTable() {
           </div>
         ),
       },
-      { children: tag.category?.name || 'n/a' },
+      {
+        children: (
+          <DisplayTableCellLink
+            href={`/dashboard/categories/${tag.category.id}`}
+          >
+            {tag.category.name}
+          </DisplayTableCellLink>
+        ),
+      },
       { children: tag.images?.length },
       { children: formatTimeStampsReadable(tag.createdAt) },
       {

@@ -16,28 +16,9 @@ export function CreateImage() {
 export function UpdateImage({ id }: { id: string }) {
   return (
     <Button asChild variant="secondary">
-      <Link
-        href={`/dashboard/images/${id}/edit`}
-        className="rounded-md border p-2 hover:bg-gray-100"
-      >
+      <Link href={`/dashboard/images/${id}/edit`}>
         <PencilIcon className="w-5" />
       </Link>
     </Button>
-  );
-}
-
-export function DeleteImage({ id }: { id: string }) {
-  // const deleteInvoiceWithId = deleteInvoice.bind(null, id);
-
-  return (
-    <form>
-      {/* <form action={deleteInvoiceWithId}> */}
-      <Button asChild variant="secondary">
-        <button className="rounded-md border p-2 hover:bg-gray-100">
-          <span className="sr-only">Delete</span>
-          <TrashIcon className="w-5" />
-        </button>
-      </Button>
-    </form>
   );
 }

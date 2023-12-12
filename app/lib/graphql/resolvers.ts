@@ -46,17 +46,20 @@ export const resolvers = {
   },
   Image: {
     tags: async (parent: any, args: any, context: Context) => {
-      return await context.prisma.tag.findMany({
-        where: {
-          images: {
-            some: {
-              id: parent.id,
-            },
+      return await context.prisma.tagsOnImages
+        .findMany({
+          where: {
+            imageId: parent.id,
           },
-        },
-      });
+          include: {
+            tag: true,
+          },
+        })
+        .then((tagsOnImages) => tagsOnImages.map((toi) => toi.tag));
     },
     collection: async (parent: any, args: any, context: Context) => {
+      if (!parent.collectionId) return null;
+
       return await context.prisma.collection.findUnique({
         where: {
           id: parent.collectionId,
@@ -75,15 +78,16 @@ export const resolvers = {
   },
   Tag: {
     images: async (parent: any, args: any, context: Context) => {
-      return await context.prisma.image.findMany({
-        where: {
-          tags: {
-            some: {
-              id: parent.id,
-            },
+      return await context.prisma.tagsOnImages
+        .findMany({
+          where: {
+            tagId: parent.id,
           },
-        },
-      });
+          include: {
+            image: true,
+          },
+        })
+        .then((tagsOnImages) => tagsOnImages.map((toi) => toi.image));
     },
     category: async (parent: any, args: any, context: Context) => {
       return await context.prisma.category.findUnique({
@@ -204,6 +208,57 @@ export const resolvers = {
       return await context.prisma.category.delete({
         where: {
           id: args.id,
+        },
+      });
+    },
+    updateTagsOnImage: async (parent: any, args: any, context: Context) => {
+      const { imageId, tagIds } = args;
+
+      // Wrap the operations in a transaction
+      await context.prisma.$transaction([
+        // Delete all tags not in the tagIds array
+        context.prisma.tagsOnImages.deleteMany({
+          where: {
+            imageId: imageId,
+            tagId: {
+              notIn: tagIds,
+            },
+          },
+        }),
+        // Upsert all tags in the tagIds array
+        ...tagIds.map((tagId: string) =>
+          context.prisma.tagsOnImages.upsert({
+            where: {
+              imageId_tagId: {
+                imageId: imageId,
+                tagId: tagId,
+              },
+            },
+            update: {},
+            create: {
+              imageId: imageId,
+              tagId: tagId,
+            },
+          })
+        ),
+      ]);
+
+      // Return the updated image
+      return context.prisma.image.findUnique({
+        where: {
+          id: imageId,
+        },
+        include: {
+          tags: {
+            include: {
+              tag: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
     },
