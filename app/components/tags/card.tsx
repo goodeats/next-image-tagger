@@ -3,7 +3,6 @@
 import { useQuery } from '@apollo/client';
 import { GET_TAG } from '@/app/lib/graphql/queries';
 import { ITag } from '@/app/lib/definitions';
-import { DisplayCard } from '../shared/display-card';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateTag } from './buttons';
 import DeleteTagForm from './delete-form';
@@ -18,6 +17,8 @@ import {
   Separator,
 } from '../ui';
 import Link from 'next/link';
+import Image from 'next/image';
+import { customLoader } from '@/app/lib/image-utils';
 
 type TagCardProps = {
   id: string;
@@ -48,6 +49,34 @@ export default function TagCard({ id }: TagCardProps) {
     );
   };
 
+  const Images = () => {
+    return (
+      <div>
+        <h6 className="text-h6 mb-2">Images</h6>
+        <div className="grid grid-cols-4 gap-6">
+          {images.map((image) => {
+            const { url, alt } = image;
+            return (
+              <Link key={image.id} href={`/dashboard/images/${image.id}`}>
+                <div className="border rounded-md">
+                  <Image
+                    loader={customLoader}
+                    src={url}
+                    alt={alt || 'no alt'}
+                    width={500}
+                    height={500}
+                    objectFit="contain"
+                    className="flex rounded-md mb-4"
+                  />
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   const TimeStamps = () => (
     <div className="text-body-xs text-muted-foreground">
       <p>Created: {formatTimeStampsReadable(createdAt)}</p>
@@ -70,6 +99,8 @@ export default function TagCard({ id }: TagCardProps) {
       </CardHeader>
       <CardContent>
         <Category />
+        <Separator className="my-4" />
+        <Images />
         <Separator className="my-4" />
       </CardContent>
       <CardFooter className="flex justify-between">
