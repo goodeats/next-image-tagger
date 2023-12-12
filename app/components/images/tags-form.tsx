@@ -32,6 +32,7 @@ export default function ImageTagsForm({
   tagIds: string[];
 }) {
   const [checkedTags, setCheckedTags] = useState(tagIds ?? []);
+  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
 
   const { data, loading, error } = useQuery(GET_CATEGORIES);
@@ -64,8 +65,8 @@ export default function ImageTagsForm({
         return;
       }
       const { imageId, tagIds } = submission.value;
-      console.log('submission', submission.value);
 
+      setSubmitting(true);
       updateImage({
         variables: {
           imageId,
@@ -107,6 +108,7 @@ export default function ImageTagsForm({
                   value={id}
                   defaultChecked={checkedTags.includes(id)}
                   className="hidden"
+                  disabled={submitting}
                 />
                 {name}
               </Badge>
@@ -159,7 +161,9 @@ export default function ImageTagsForm({
           <Link href={`/dashboard/images/${image.id}`}>Cancel</Link>
         </Button>
 
-        <Button type="submit">Update Image Tags</Button>
+        <Button type="submit" disabled={submitting}>
+          Update Image Tags
+        </Button>
       </div>
     </form>
   );
