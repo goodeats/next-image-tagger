@@ -38,7 +38,7 @@ export default function Page({ params }: PageProps) {
           },
         ]}
       />
-      <CategoryCard id={id} />
+      <CategoryCard category={category} />
     </main>
   );
 }

@@ -1,14 +1,11 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
-import { GET_CATEGORY } from '@/app/lib/graphql/queries';
 import { ICategory } from '@/app/lib/definitions';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateCategory } from './buttons';
 import DeleteCategoryForm from './delete-form';
 import {
   Badge,
-  Button,
   Card,
   CardContent,
   CardDescription,
@@ -20,20 +17,11 @@ import {
 import Link from 'next/link';
 
 type CategoryCardProps = {
-  id: string;
+  category: ICategory;
 };
 
-export default function CategoryCard({ id }: CategoryCardProps) {
-  const { data, loading, error } = useQuery(GET_CATEGORY, {
-    variables: { id },
-  });
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  const category: ICategory = data?.category;
-  if (!category) return <p>Category not found</p>;
-  const { name, createdAt, updatedAt, tags } = category;
+export default function CategoryCard({ category }: CategoryCardProps) {
+  const { id, name, createdAt, updatedAt, tags } = category;
 
   const Tags = () => (
     <div className="flex flex-col space-y-4">

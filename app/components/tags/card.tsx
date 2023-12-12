@@ -21,20 +21,11 @@ import Image from 'next/image';
 import { customLoader } from '@/app/lib/image-utils';
 
 type TagCardProps = {
-  id: string;
+  tag: ITag;
 };
 
-export default function TagCard({ id }: TagCardProps) {
-  const { data, loading, error } = useQuery(GET_TAG, {
-    variables: { id },
-  });
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  const tag: ITag = data?.tag;
-  if (!tag) return <p>Tag not found</p>;
-  const { name, createdAt, updatedAt, images, category } = tag;
+export default function TagCard({ tag }: TagCardProps) {
+  const { id, name, createdAt, updatedAt, images, category } = tag;
 
   const Category = () => {
     return (

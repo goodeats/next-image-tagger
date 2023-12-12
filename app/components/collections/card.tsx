@@ -1,7 +1,5 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
-import { GET_COLLECTION } from '@/app/lib/graphql/queries';
 import { ICollection } from '@/app/lib/definitions';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateCollection } from './buttons';
@@ -20,20 +18,11 @@ import Image from 'next/image';
 import { customLoader } from '@/app/lib/image-utils';
 
 type CollectionCardProps = {
-  id: string;
+  collection: ICollection;
 };
 
-export default function CollectionCard({ id }: CollectionCardProps) {
-  const { data, loading, error } = useQuery(GET_COLLECTION, {
-    variables: { id },
-  });
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  const collection: ICollection = data?.collection;
-  if (!collection) return <p>Collection not found</p>;
-  const { name, createdAt, updatedAt, images } = collection;
+export default function CollectionCard({ collection }: CollectionCardProps) {
+  const { id, name, createdAt, updatedAt, images } = collection;
 
   const Images = () => {
     const NoImages = () => <div className="text-muted-foreground">none</div>;

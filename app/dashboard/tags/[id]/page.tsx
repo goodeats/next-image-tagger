@@ -38,7 +38,7 @@ export default function Page({ params }: PageProps) {
           },
         ]}
       />
-      <TagCard id={id} />
+      <TagCard tag={tag} />
     </main>
   );
 }

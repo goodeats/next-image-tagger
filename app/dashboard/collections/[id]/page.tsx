@@ -38,7 +38,7 @@ export default function Page({ params }: PageProps) {
           },
         ]}
       />
-      <CollectionCard id={id} />
+      <CollectionCard collection={collection} />
     </main>
   );
 }
