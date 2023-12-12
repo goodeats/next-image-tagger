@@ -75,9 +75,9 @@ export default function ImageCard({ id }: ImageCardProps) {
       <h6 className="text-h6 mb-2">Tags</h6>
       <div>
         {tags?.map((tag) => (
-          <Badge key={tag.id} className="mr-2 mb-2">
-            {tag.name}
-          </Badge>
+          <Link key={tag.id} href={`/dashboard/tags/${tag.id}`}>
+            <Badge className="mr-2 mb-2">{tag.name}</Badge>
+          </Link>
         ))}
       </div>
       <div>
