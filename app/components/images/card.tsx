@@ -7,10 +7,10 @@ import { IImage } from '@/app/lib/definitions';
 import { customLoader } from '@/app/lib/image-utils';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateImage } from './buttons';
-import { DisplayCard } from '../shared';
 import DeleteImageForm from './delete-form';
 import Link from 'next/link';
 import {
+  Badge,
   Button,
   Card,
   CardContent,
@@ -49,14 +49,42 @@ export default function ImageCard({ id }: ImageCardProps) {
     />
   );
 
-  const Collection = () => <div>Collection: {collection?.name || 'n/a'}</div>;
+  const Collection = () => {
+    const NoCollection = () => (
+      <div className="text-muted-foreground">none</div>
+    );
+
+    const WithCollection = () => (
+      <Button asChild variant="link">
+        <Link href={`/dashboard/collections/${collection?.id}`}>
+          {collection.name}
+        </Link>
+      </Button>
+    );
+
+    return (
+      <div className="">
+        <h6 className="text-h6 mb-2">Collection</h6>
+        {collection ? <WithCollection /> : <NoCollection />}
+      </div>
+    );
+  };
 
   const Tags = () => (
-    <div>
-      Tags:{' '}
-      <Button asChild variant="link">
-        <Link href={`/dashboard/images/${id}/tags`}>{tags?.length || 0}</Link>
-      </Button>
+    <div className="flex flex-col space-y-4">
+      <h6 className="text-h6 mb-2">Tags</h6>
+      <div>
+        {tags?.map((tag) => (
+          <Badge key={tag.id} className="mr-2 mb-2">
+            {tag.name}
+          </Badge>
+        ))}
+      </div>
+      <div>
+        <Button asChild variant="secondary">
+          <Link href={`/dashboard/images/${id}/tags`}>Edit Tags</Link>
+        </Button>
+      </div>
     </div>
   );
 
@@ -83,8 +111,9 @@ export default function ImageCard({ id }: ImageCardProps) {
       <CardContent>
         <CardImage />
         <Collection />
+        <Separator className="my-4" />
         <Tags />
-        <Separator className="mb-4" />
+        <Separator className="my-4" />
       </CardContent>
       <CardFooter className="flex justify-between">
         <TimeStamps />
