@@ -1,4 +1,4 @@
-import { lusitana } from '@/app/components/fonts';
+import { Breadcrumbs } from '@/app/components/shared';
 import { CreateCollection } from '@/app/components/collections/buttons';
 import Table from '@/app/components/collections/table';
 import Search from '@/app/components/search';
@@ -11,17 +11,19 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   return (
-    <div className="w-full">
-      <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Collections</h1>
+    <>
+      <Breadcrumbs
+        breadcrumbs={[{ label: 'Collections', href: '/dashboard/collections' }]}
+      />
+      <div className="w-full">
+        <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+          <Search placeholder="Search collections..." />
+          <CreateCollection />
+        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Table />
+        </Suspense>
       </div>
-      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search collections..." />
-        <CreateCollection />
-      </div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Table />
-      </Suspense>
-    </div>
+    </>
   );
 }

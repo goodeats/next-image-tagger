@@ -1,7 +1,7 @@
 'use client';
 
 import Form from '@/app/components/collections/update-form';
-import Breadcrumbs from '@/app/components/collections/breadcrumbs';
+import { Breadcrumbs } from '@/app/components/shared';
 import { ICollection } from '@/app/lib/definitions';
 import { GET_COLLECTION } from '@/app/lib/graphql/queries';
 import { useQuery } from '@apollo/client';

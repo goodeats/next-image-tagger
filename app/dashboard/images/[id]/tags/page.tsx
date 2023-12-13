@@ -1,6 +1,6 @@
 'use client';
 
-import Breadcrumbs from '@/app/components/images/breadcrumbs';
+import { Breadcrumbs } from '@/app/components/shared';
 import { IImage } from '@/app/lib/definitions';
 import { GET_IMAGE } from '@/app/lib/graphql/queries';
 import { useQuery } from '@apollo/client';

@@ -1,43 +1,38 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
-import { GET_COLLECTION } from '@/app/lib/graphql/queries';
-import { ICollection } from '@/app/lib/definitions';
-import { DisplayCard } from '../shared/display-card';
+import { ICollection, IImage } from '@/app/lib/definitions';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { UpdateCollection } from './buttons';
 import DeleteCollectionForm from './delete-form';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Separator,
+} from '../ui';
+import Link from 'next/link';
+import Image from 'next/image';
+import { customLoader } from '@/app/lib/image-utils';
+import ImagesGrid from '../images/images-grid';
 
 type CollectionCardProps = {
-  id: string;
+  collection: ICollection;
 };
 
-export default function CollectionCard({ id }: CollectionCardProps) {
-  const { data, loading, error } = useQuery(GET_COLLECTION, {
-    variables: { id },
-  });
+export default function CollectionCard({ collection }: CollectionCardProps) {
+  const { id, name, createdAt, updatedAt, images } = collection;
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  const collection: ICollection = data?.collection;
-  if (!collection) return <p>Collection not found</p>;
-  const { name, createdAt, updatedAt, images } = collection;
-
-  const Timestamps = () => (
-    <div>
+  const TimeStamps = () => (
+    <div className="text-body-xs text-muted-foreground">
       <p>Created: {formatTimeStampsReadable(createdAt)}</p>
       <p>Updated: {formatTimeStampsReadable(updatedAt)}</p>
     </div>
   );
 
-  const CardContent = () => (
-    <>
-      <div>Images: {images.length}</div>
-    </>
-  );
-
-  const CardFooter = () => (
+  const Buttons = () => (
     <div className="grid grid-cols-2 gap-6">
       <UpdateCollection id={id} />
       <DeleteCollectionForm id={id} />
@@ -45,17 +40,19 @@ export default function CollectionCard({ id }: CollectionCardProps) {
   );
 
   return (
-    <DisplayCard
-      cardHeaderProps={{
-        title: name || '(no name)',
-        description: <Timestamps />,
-      }}
-      cardContentProps={{
-        children: <CardContent />,
-      }}
-      cardFooterProps={{
-        children: <CardFooter />,
-      }}
-    />
+    <Card>
+      <CardHeader>
+        <CardTitle>{name}</CardTitle>
+        <CardDescription>Collection Details</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ImagesGrid images={images as IImage[]} />
+        <Separator />
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <TimeStamps />
+        <Buttons />
+      </CardFooter>
+    </Card>
   );
 }

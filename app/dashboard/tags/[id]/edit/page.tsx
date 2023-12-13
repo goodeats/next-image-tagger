@@ -1,9 +1,9 @@
 'use client';
 
 import Form from '@/app/components/tags/update-form';
-import Breadcrumbs from '@/app/components/tags/breadcrumbs';
-import { ICollection, ITag } from '@/app/lib/definitions';
-import { GET_COLLECTION, GET_TAG } from '@/app/lib/graphql/queries';
+import { Breadcrumbs } from '@/app/components/shared';
+import { ITag } from '@/app/lib/definitions';
+import { GET_TAG } from '@/app/lib/graphql/queries';
 import { useQuery } from '@apollo/client';
 import { notFound } from 'next/navigation';
 

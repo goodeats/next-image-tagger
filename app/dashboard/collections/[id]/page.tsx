@@ -1,6 +1,6 @@
 'use client';
 
-import Breadcrumbs from '@/app/components/collections/breadcrumbs';
+import { Breadcrumbs } from '@/app/components/shared';
 import CollectionCard from '@/app/components/collections/card';
 import { ICollection } from '@/app/lib/definitions';
 import { GET_COLLECTION } from '@/app/lib/graphql/queries';
@@ -38,7 +38,7 @@ export default function Page({ params }: PageProps) {
           },
         ]}
       />
-      <CollectionCard id={id} />
+      <CollectionCard collection={collection} />
     </main>
   );
 }
