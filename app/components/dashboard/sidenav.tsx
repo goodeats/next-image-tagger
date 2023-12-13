@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import NavLinks from '@/app/components/dashboard/nav-links';
 import { ModeToggle } from '../dark-mode-toggle';

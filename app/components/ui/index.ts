@@ -54,3 +54,5 @@ export {
   TableCell,
   TableCaption,
 } from './table';
+
+// remember to add 'use client' to any file in this directory
