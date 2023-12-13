@@ -1,7 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { inter } from '@/app/components/fonts';
-import { Providers } from '@/app/components/Providers';
+import { ApolloClientProvider } from '@/app/components/providers/apollo-client-provider';
+import { ThemeProvider } from './components/providers/theme-provider';
 
 export const metadata: Metadata = {
   title: {
@@ -19,7 +20,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <Providers>{children}</Providers>
+        <ApolloClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem={true}
+          >
+            {children}
+          </ThemeProvider>
+        </ApolloClientProvider>
       </body>
     </html>
   );
