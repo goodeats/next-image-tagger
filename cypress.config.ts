@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress';
 import { seed } from './prisma/seed';
 
 export default defineConfig({
+  projectId: 'trp37c',
   e2e: {
     baseUrl: 'http://localhost:3000',
     setupNodeEvents(on, config) {
@@ -23,5 +24,9 @@ export default defineConfig({
       framework: 'next',
       bundler: 'webpack',
     },
+  },
+  retries: {
+    runMode: 2,
+    openMode: 0,
   },
 });
