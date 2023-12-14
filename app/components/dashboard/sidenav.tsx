@@ -8,10 +8,10 @@ export default function SideNav() {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
       <Link
-        className="mb-2 flex h-20 items-end justify-start rounded-md bg-primary p-4 md:h-40"
+        className="mb-2 flex h-20 items-end justify-start rounded-md bg-muted p-4 md:h-40"
         href="/"
       >
-        <div className="w-32 text-primary-foreground md:w-40">
+        <div className="w-32 text-muted-foreground md:w-40">
           <p>Next Image Tagger</p>
         </div>
       </Link>
