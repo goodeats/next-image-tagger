@@ -9,7 +9,17 @@ export const metadata: Metadata = {
   title: 'Images',
 };
 
-export default async function Page() {
+type PageProps = {
+  searchParams?: {
+    filter?: string;
+    page?: number;
+  };
+};
+
+export default async function Page({ searchParams }: PageProps) {
+  const filter = searchParams?.filter || '';
+  const page = searchParams?.page || 1;
+
   return (
     <>
       <Breadcrumbs
@@ -21,7 +31,7 @@ export default async function Page() {
           <CreateImage />
         </div>
         <Suspense fallback={<div>Loading...</div>}>
-          <ImagesTable />
+          <ImagesTable filter={filter} page={page} />
         </Suspense>
       </div>
     </>

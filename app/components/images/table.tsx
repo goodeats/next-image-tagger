@@ -7,14 +7,23 @@ import { GET_IMAGES } from '@/app/lib/graphql/queries';
 import { IImage } from '@/app/lib/definitions';
 import { customLoader } from '@/app/lib/image-utils';
 import { DisplayTable } from '../shared';
-import Link from 'next/link';
 import DeleteImageForm from './delete-form';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
-import { Button } from '../ui';
 import { DisplayTableCellLink } from '../shared/display-table';
 
-export default function ImagesTable() {
-  const { data, loading, error } = useQuery(GET_IMAGES);
+type ImagesTableProps = {
+  filter?: string;
+  page?: number;
+};
+
+export default function ImagesTable({ filter, page }: ImagesTableProps) {
+  const { data, loading, error } = useQuery(GET_IMAGES, {
+    variables: {
+      filter,
+      // page,
+      orderBy: { field: 'title', direction: 'asc' },
+    },
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;

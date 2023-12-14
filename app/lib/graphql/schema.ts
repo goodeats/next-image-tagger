@@ -41,7 +41,7 @@ export const typeDefs = `#graphql
 
   type Query {
     hello: String
-    images: [Image]
+    images(filter: String, orderBy: ImageOrderByInput): [Image]
     image(id: ID!): Image
     collections: [Collection]
     collection(id: ID!): Collection
@@ -49,6 +49,16 @@ export const typeDefs = `#graphql
     tag(id: ID!): Tag
     categories: [Category]
     category(id: ID!): Category
+  }
+
+  input ImageOrderByInput {
+    field: String
+    direction: SortOrder
+  }
+
+  enum SortOrder {
+    asc
+    desc
   }
 
   type Mutation {
