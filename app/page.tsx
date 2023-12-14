@@ -1,13 +1,12 @@
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { lusitana } from '@/app/components/fonts';
-import Image from 'next/image';
 import { Button } from './components/ui';
 
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-primary text-primary-foreground p-4 md:h-52">
+      <div className="flex h-20 shrink-0 items-end rounded-lg bg-muted text-muted-foreground p-4 md:h-52">
         Home
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
