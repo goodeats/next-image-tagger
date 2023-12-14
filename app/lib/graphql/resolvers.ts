@@ -4,7 +4,19 @@ export const resolvers = {
   Query: {
     hello: () => 'world',
     images: async (parent: any, args: any, context: Context) => {
-      return await context.prisma.image.findMany();
+      const { orderBy } = args;
+
+      const orderQuery = orderBy
+        ? {
+            orderBy: {
+              [orderBy.field]: orderBy.direction,
+            },
+          }
+        : {};
+
+      return await context.prisma.image.findMany({
+        orderBy: orderQuery.orderBy,
+      });
     },
     image: async (parent: any, args: any, context: Context) => {
       return await context.prisma.image.findUnique({

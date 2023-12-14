@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_IMAGES = gql`
-  query Images {
-    images {
+  query Images($orderBy: ImageOrderByInput) {
+    images(orderBy: $orderBy) {
       id
       url
       title
