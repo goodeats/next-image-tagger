@@ -2,7 +2,7 @@ export const collectionsSeedJson = [{ name: 'Pat' }, { name: 'Celtics' }];
 
 export type ImageSeed = {
   url: string;
-  title?: string;
+  title: string;
   alt?: string;
   collectionName?: string;
 };
