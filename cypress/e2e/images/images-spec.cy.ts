@@ -5,33 +5,29 @@ describe('Images', () => {
     cy.task('db:seed');
   });
 
-  context('top page content', () => {
+  beforeEach(() => {
+    cy.visit('/dashboard/images');
+  });
+
+  context('breadcrumbs', () => {
     it('should have a link to the images page', () => {
-      cy.visit('/dashboard/images');
       cy.get('a').contains('Images');
     });
+  });
 
-    it('should display the search bar', () => {
-      cy.visit('/dashboard/images');
-      cy.get('input[placeholder="Search images..."]').should('be.visible');
-      cy.get('input[placeholder="Search images..."]').should('be.disabled');
-    });
-
-    it('should display the create image button', () => {
-      cy.visit('/dashboard/images');
-      cy.get('a').contains('Create Image').should('be.visible');
-      it('should navigate to /dashboard/images/new page when Create Image button is clicked', () => {
-        cy.visit('/dashboard/images');
-        cy.get('a').contains('Create Image').click();
-        cy.url().should('include', '/dashboard/images/new');
-      });
+  context('create image link', () => {
+    it('should navigate to /dashboard/images/new page when Create Image button is clicked', () => {
+      cy.get('a').contains('Create Image').click();
+      cy.url().should('include', '/dashboard/images/new');
     });
   });
 
   context('images table', () => {
-    it('should display the images table headers', () => {
-      cy.visit('/dashboard/images');
+    beforeEach(() => {
       cy.get('table').should('be.visible');
+    });
+
+    it('should display the images table headers', () => {
       cy.get('table').within(() => {
         cy.get('th').should('have.length', 6);
         cy.get('th').eq(0).should('contain', 'Image');
@@ -48,8 +44,7 @@ describe('Images', () => {
       const image = images[0];
       const { title, collectionName } = image;
 
-      cy.visit('/dashboard/images');
-      cy.get('table').should('be.visible');
+      // cy.visit('/dashboard/images');
       cy.get('table').within(() => {
         cy.get('tbody tr').should('have.length', 3);
         cy.get('tbody tr')
@@ -76,6 +71,24 @@ describe('Images', () => {
             cy.get('td').eq(5).find('a').should('have.length', 1);
             cy.get('td').eq(5).find('button').should('have.length', 1);
           });
+      });
+    });
+  });
+
+  context('image search bar', () => {
+    it('should display the search bar', () => {
+      cy.get('input[placeholder="Search images..."]').should('be.visible');
+    });
+
+    it('should display the search results', () => {
+      const images = sortedImages();
+      const image = images[0];
+      const { title } = image;
+
+      cy.get('input[placeholder="Search images..."]').should('be.visible');
+      cy.get('input[placeholder="Search images..."]').type(title);
+      cy.get('table').within(() => {
+        cy.get('tbody tr').should('have.length', 1);
       });
     });
   });

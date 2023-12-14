@@ -11,9 +11,16 @@ import DeleteImageForm from './delete-form';
 import { formatTimeStampsReadable } from '@/app/lib/format-date';
 import { DisplayTableCellLink } from '../shared/display-table';
 
-export default function ImagesTable() {
+type ImagesTableProps = {
+  filter?: string;
+  page?: number;
+};
+
+export default function ImagesTable({ filter, page }: ImagesTableProps) {
   const { data, loading, error } = useQuery(GET_IMAGES, {
     variables: {
+      filter,
+      // page,
       orderBy: { field: 'title', direction: 'asc' },
     },
   });

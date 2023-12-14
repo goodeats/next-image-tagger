@@ -4,7 +4,20 @@ export const resolvers = {
   Query: {
     hello: () => 'world',
     images: async (parent: any, args: any, context: Context) => {
-      const { orderBy } = args;
+      const { filter, orderBy } = args;
+
+      const where = filter
+        ? {
+            OR: [
+              {
+                title: {
+                  contains: filter,
+                  mode: 'insensitive' as const,
+                },
+              },
+            ],
+          }
+        : {};
 
       const orderQuery = orderBy
         ? {
@@ -15,6 +28,7 @@ export const resolvers = {
         : {};
 
       return await context.prisma.image.findMany({
+        where,
         orderBy: orderQuery.orderBy,
       });
     },

@@ -41,7 +41,7 @@ export const typeDefs = `#graphql
 
   type Query {
     hello: String
-    images(orderBy: ImageOrderByInput): [Image]
+    images(filter: String, orderBy: ImageOrderByInput): [Image]
     image(id: ID!): Image
     collections: [Collection]
     collection(id: ID!): Collection
