@@ -113,11 +113,11 @@ export default function Form() {
 
   const ImagePreview = () => (
     <div className="flex items-center justify-center">
-      <div className="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center">
+      <div className="w-40 h-40 rounded-full bg-background flex items-center justify-center">
         {imageUrl ? (
           <LoadedImage />
         ) : (
-          <p className="text-gray-400 text-sm">No image</p>
+          <p className="text-muted-foreground text-sm">No image</p>
         )}
       </div>
     </div>
@@ -131,7 +131,7 @@ export default function Form() {
 					rather than the first button in the form (which is delete/add image).
 				*/}
       <button type="submit" className="hidden" />
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+      <div className="rounded-md bg-secondary text-foreground-secondary p-4 md:p-6">
         <ImagePreview />
 
         {/* Image Url */}

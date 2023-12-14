@@ -65,7 +65,7 @@ export default function Form() {
 					rather than the first button in the form (which is delete/add image).
 				*/}
       <button type="submit" className="hidden" />
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+      <div className="rounded-md bg-secondary text-foreground-secondary p-4 md:p-6">
         {/* Tag name */}
         <FieldContainer>
           <Field

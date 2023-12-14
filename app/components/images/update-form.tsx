@@ -135,7 +135,7 @@ export default function Form({ image }: { image: IImage }) {
 				*/}
       <button type="submit" className="hidden" />
       <input type="hidden" {...conform.input(fields.id)} />
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+      <div className="rounded-md bg-secondary text-foreground-secondary p-4 md:p-6">
         <ImagePreview />
 
         {/* Image Url */}
