@@ -6,6 +6,12 @@ describe('Images', () => {
   });
 
   beforeEach(() => {
+    const images = imagesSeedJson.map((image) => {
+      cy.intercept('GET', image.url, {
+        fixture: 'images/images/pat_400x400.jpg',
+      });
+    });
+
     cy.visit('/dashboard/images');
   });
 
@@ -23,10 +29,6 @@ describe('Images', () => {
   });
 
   context('images table', () => {
-    beforeEach(() => {
-      cy.get('table').should('be.visible');
-    });
-
     it('should display the images table headers', () => {
       cy.get('table').within(() => {
         cy.get('th').should('have.length', 6);
@@ -42,11 +44,9 @@ describe('Images', () => {
     it('should display the images table row content', () => {
       const images = sortedImages();
       const image = images[0];
-      const { title, collectionName } = image;
 
-      // cy.visit('/dashboard/images');
       cy.get('table').within(() => {
-        cy.get('tbody tr').should('have.length', 3);
+        cy.get('tbody tr').should('have.length', imagesSeedJson.length);
         cy.get('tbody tr')
           .first()
           .within(() => {
@@ -56,10 +56,13 @@ describe('Images', () => {
             cy.get('td').eq(0).find('a').find('img').should('be.visible');
 
             // title
-            cy.get('td').eq(1).find('a').should('contain', title);
+            cy.get('td').eq(1).find('a').should('contain', image.title);
 
             // collection
-            cy.get('td').eq(2).find('a').should('contain', collectionName);
+            cy.get('td')
+              .eq(2)
+              .find('a')
+              .should('contain', image.collectionName || 'n/a');
 
             // date added
             cy.get('td').eq(3).should('be.visible');
